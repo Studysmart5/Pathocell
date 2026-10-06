@@ -380,40 +380,116 @@
   }
   .region-chips{display:flex; flex-wrap:wrap; gap:7px; flex:1; min-width:220px;}
 
+  /* ---------- Interactive diagrams ---------- */
+  .dg-jump{display:flex; flex-wrap:wrap; gap:7px; margin:0 0 20px;}
+  .dg-jump button{border:1px solid var(--line); background:var(--card); border-radius:20px; padding:6px 12px; font:600 12.5px 'IBM Plex Sans',sans-serif; color:var(--ink-soft); cursor:pointer;}
+  .dg-jump button:hover{border-color:var(--teal); color:var(--teal-deep);}
+  .dg-jump button b{font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:var(--teal); margin-right:5px;}
+  .dg-purpose{margin:0 0 12px; font-size:13.5px; color:var(--ink-soft);}
+  .dg-bar{display:flex; gap:7px; flex-wrap:wrap; align-items:center; margin-bottom:12px;}
+  .dg-btn{border:1px solid var(--line); background:var(--card); border-radius:20px; padding:6px 13px; font:600 12.5px 'IBM Plex Sans',sans-serif; color:var(--ink-soft); cursor:pointer; min-height:32px;}
+  .dg-btn:hover{border-color:var(--teal); color:var(--teal-deep);}
+  .dg-zoomval{font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--ink-faint); min-width:40px; text-align:center;}
+  .dg-hint{margin-left:auto; font-size:12px; color:var(--ink-faint);}
+  .dg-scroll{overflow-x:auto; overflow-y:hidden; border:1px solid var(--line); border-radius:var(--radius-m); background:var(--paper); -webkit-overflow-scrolling:touch;}
+  .dg-scroll.grab{cursor:grab;}
+  .dg-sizer{position:relative; margin:0 auto;}
+  .dg-stage{position:absolute; left:0; top:0; transform-origin:0 0; display:grid; width:max-content;
+    --cw:156px; --gap:16px;
+    grid-template-columns:repeat(var(--cols),var(--cw)); column-gap:var(--gap); padding:18px 14px 0;}
+  .dg-edges{position:absolute; left:0; top:0; pointer-events:none; z-index:1; overflow:visible;}
+  .dg-edges path{fill:none; stroke:#9DB0AA; stroke-width:1.6;}
+  .dg-edges path.hl{stroke:var(--teal-deep); stroke-width:2.4;}
+  .dg-stage.has-sel .dg-edges path:not(.hl){opacity:.22;}
+  .dg-node{position:relative; margin:0 0 64px; padding:9px 10px; border-radius:10px; border:1.5px solid var(--line); background:var(--card);
+    text-align:center; color:var(--ink); cursor:pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px;
+    min-height:52px; z-index:2; transition:opacity .15s, box-shadow .15s, transform .15s;}
+  .dg-node:hover{transform:translateY(-1px); box-shadow:0 3px 10px rgba(21,36,32,.14);}
+  .dg-node:focus-visible{outline:2px solid var(--teal); outline-offset:2px;}
+  .dg-node .nl{font-size:13px; font-weight:700; line-height:1.25;}
+  .dg-node .ns{font-size:11.5px; line-height:1.3; font-weight:500; opacity:.85;}
+  .dg-node ul.ne{margin:4px 0 0; padding:0; list-style:none; font-size:11px; line-height:1.35; text-align:left; width:100%;}
+  .dg-node ul.ne li{padding-left:10px; position:relative; margin-top:2px;}
+  .dg-node ul.ne li::before{content:"\2022"; position:absolute; left:0;}
+  .dg-node .nn{position:absolute; left:-9px; top:-9px; width:21px; height:21px; border-radius:50%; background:var(--amber); color:#fff; font:700 11px 'IBM Plex Mono',monospace; display:flex; align-items:center; justify-content:center;}
+  .dg-node.k-main{background:var(--teal-deep); border-color:var(--teal-deep); color:#fff;}
+  .dg-node.k-branch{background:#E3EFF0; border-color:var(--teal); color:var(--teal-deep);}
+  .dg-node.k-stage{background:var(--amber-soft); border-color:var(--amber); color:#5E3E0E;}
+  .dg-node.k-result{background:#E4F3EA; border-color:var(--good); color:#20502F;}
+  .dg-node.k-warn{background:#FBE9E9; border-color:var(--bad); color:#6E2323;}
+  .dg-node.k-leaf{background:var(--card); border-style:dashed; border-color:#A9B9B3; color:var(--ink-soft);}
+  .dg-node.sel{box-shadow:0 0 0 3px var(--eosin-soft); border-color:var(--eosin);}
+  .dg-node.nb{box-shadow:0 0 0 2px rgba(30,110,118,.35);}
+  .dg-stage.has-sel .dg-node:not(.sel):not(.nb){opacity:.4;}
+  .dg-node.has-fold{padding-bottom:16px;}
+  .dg-fold{position:absolute; left:50%; bottom:-12px; transform:translateX(-50%); width:24px; height:24px; border-radius:50%; border:1.5px solid var(--teal); background:var(--card); color:var(--teal-deep); font:700 14px/1 'IBM Plex Sans',sans-serif; cursor:pointer; padding:0; display:flex; align-items:center; justify-content:center; z-index:4;}
+  .dg-fold:hover{background:var(--teal); color:#fff;}
+  .dg-rel{position:absolute; z-index:3; transform:translate(-50%,-50%); font:600 10.5px/1.25 'IBM Plex Sans',sans-serif; background:var(--amber-soft); color:#7A4F14; border-radius:4px; padding:2px 6px; max-width:124px; text-align:center; pointer-events:none; display:none;}
+  .dg-stage.has-sel .dg-rel:not(.hl){opacity:.3;}
+  .dg-legend{display:flex; flex-wrap:wrap; gap:6px 14px; margin-top:12px; font-size:11.5px; color:var(--ink-soft);}
+  .dg-legend .sw{width:12px; height:12px; border-radius:3px; border:1.5px solid; display:inline-block; vertical-align:-2px; margin-right:5px;}
+  .dg-legend .sw.k-main{background:var(--teal-deep); border-color:var(--teal-deep);}
+  .dg-legend .sw.k-branch{background:#E3EFF0; border-color:var(--teal);}
+  .dg-legend .sw.k-stage{background:var(--amber-soft); border-color:var(--amber);}
+  .dg-legend .sw.k-result{background:#E4F3EA; border-color:var(--good);}
+  .dg-legend .sw.k-warn{background:#FBE9E9; border-color:var(--bad);}
+  .dg-legend .sw.k-leaf{background:var(--card); border-style:dashed; border-color:#A9B9B3;}
+  .dg-cap p{margin:2px 0 6px;}
+  .dg-cap ul{margin:4px 0 6px; padding-left:18px;}
+  .dg-cap .cap-sub{font-weight:500; color:var(--ink-soft);}
+  .dg-cap .cap-rel{margin-top:8px; padding-top:8px; border-top:1px dashed var(--line); font-size:12.5px;}
+  .dg-cap .cap-rel i{font-style:normal; font-family:'IBM Plex Mono',monospace; font-size:10px; background:var(--amber-soft); color:#7A4F14; border-radius:4px; padding:1px 5px; margin:0 4px;}
+  /* comparison */
+  table.dg-cmp{border-collapse:separate; border-spacing:0; width:100%; min-width:640px; font-size:13px; background:var(--card);}
+  table.dg-cmp th, table.dg-cmp td{padding:11px 12px; border-bottom:1px solid var(--line); border-right:1px solid var(--line); text-align:left; vertical-align:top;}
+  table.dg-cmp thead th{background:var(--teal-deep); color:#fff; font-family:'Lora',serif; font-size:14.5px; cursor:pointer;}
+  table.dg-cmp tbody th{background:var(--paper-2); font-size:12px; font-weight:700; color:var(--teal-deep); width:16%; cursor:pointer;}
+  table.dg-cmp td{cursor:pointer;}
+  table.dg-cmp td b{display:block; margin-bottom:2px;}
+  table.dg-cmp td.hl{background:#EEF6F5;}
+  table.dg-cmp td.sel{background:var(--eosin-soft); box-shadow:inset 0 0 0 2px var(--eosin);}
+  table.dg-cmp thead th.hl{background:var(--teal);}
+  .dg-together{margin-top:14px; border:1px solid var(--amber); background:var(--amber-soft); color:#5E3E0E; border-radius:var(--radius-m); padding:12px 14px; font-size:13px; cursor:pointer;}
+  .dg-together b{display:block; margin-bottom:2px;}
+  @media(max-width:560px){
+    .dg-stage{--cw:112px; --gap:9px;}
+    .dg-node .nl{font-size:12px;} .dg-node .ns{font-size:10.5px;} .dg-node ul.ne{font-size:10.5px;}
+    .dg-hint{margin-left:0; width:100%;}
+  }
+
   /* ---------- Mini map ---------- */
-  .minimap{display:grid; grid-template-columns:260px 1fr; gap:22px;}
-  @media (max-width:680px){.minimap{grid-template-columns:1fr;}}
-  .mm-list{border-top:1px solid var(--line);}
-  .mm-item{
-    display:block; width:100%; text-align:left;
-    background:none; border:none; border-bottom:1px solid var(--line);
-    padding:12px 4px; cursor:pointer;
-    font-size:13.5px; font-weight:600; color:var(--ink-soft);
-    display:flex; justify-content:space-between; align-items:center;
-  }
-  .mm-item:hover{color:var(--teal-deep);}
-  .mm-item.active{color:var(--teal-deep);}
-  .mm-item.active .mm-ico{background:var(--teal); color:#fff;}
-  .mm-ico{
-    font-family:'IBM Plex Mono',monospace; font-size:10px;
-    width:20px; height:20px; border-radius:5px;
-    display:flex; align-items:center; justify-content:center;
-    border:1px solid var(--line); color:var(--ink-faint); flex:none;
-  }
-  .mm-detail{
-    background:var(--card);
-    border:1px solid var(--line);
-    border-radius:var(--radius-m);
-    padding:22px 24px;
-    min-height:260px;
-    position:sticky; top:16px;
-  }
-  .mm-detail h3{
-    font-family:'Lora',serif; font-size:18px; margin:0 0 10px;
-  }
-  .mm-detail p{font-size:14px; color:var(--ink-soft); margin:0 0 10px;}
-  .mm-detail .placeholder{color:var(--ink-faint); font-size:13.5px;}
-  .mm-detail ul{margin:8px 0 0; padding-left:18px; font-size:13.5px; color:var(--ink-soft);}
+  .mm-bar{display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-bottom:16px;}
+  .mm-btn{border:1px solid var(--line); background:var(--card); border-radius:20px; padding:6px 13px; font:600 12.5px 'IBM Plex Sans',sans-serif; color:var(--ink-soft); cursor:pointer;}
+  .mm-btn:hover{border-color:var(--teal); color:var(--teal-deep);}
+  .mm-hint{font-size:12px; color:var(--ink-faint); margin-left:auto;}
+  .mmtree, .mmtree ul{list-style:none; margin:0; padding:0;}
+  .mmtree ul{margin:4px 0 6px 11px; padding-left:14px; border-left:1.5px solid var(--line);}
+  .mmtree li{margin:5px 0;}
+  .mm-row{display:flex; align-items:flex-start; gap:9px; width:100%; text-align:left; font-family:inherit; color:var(--ink);
+    border:1px solid var(--line); background:var(--card); border-radius:10px; padding:9px 12px; line-height:1.35; cursor:pointer;}
+  button.mm-row:hover{border-color:var(--teal);}
+  button.mm-row:focus-visible{outline:2px solid var(--teal); outline-offset:2px;}
+  .mm-row.leaf{cursor:default;}
+  .mm-row.l1{background:var(--teal-deep); border-color:var(--teal-deep); color:#fff; padding:12px 14px;}
+  .mm-row.l1 .mm-t{font-family:'Lora',serif; font-size:16px;}
+  .mm-row.l1 .mm-chev{color:#fff;}
+  .mm-row.l2{border-left:4px solid var(--teal);}
+  .mm-row.l2 .mm-t{font-size:14.5px; font-weight:700;}
+  .mm-row.l3{background:var(--paper-2);}
+  .mm-row.l4{background:var(--paper); border-style:dashed;}
+  .mm-row.l4 .mm-t{font-weight:500;}
+  .mm-row.l5{background:var(--paper); border-style:dashed;}
+  .mm-chev{flex:none; width:14px; height:16px; position:relative; color:var(--teal);}
+  .mm-chev::before{content:""; position:absolute; left:3px; top:3px; border-left:6px solid currentColor; border-top:5px solid transparent; border-bottom:5px solid transparent; transition:transform .15s;}
+  .mm-row[aria-expanded="true"] .mm-chev::before{transform:rotate(90deg);}
+  .mm-dot{flex:none; width:6px; height:6px; border-radius:50%; background:var(--ink-faint); margin:7px 4px 0 4px;}
+  .mm-txt{flex:1; min-width:0;}
+  .mm-t{font-size:13.5px; font-weight:600;}
+  .mm-d{display:block; font-size:12.5px; color:var(--ink-soft); margin-top:2px; font-weight:400;}
+  .mm-row.l1 .mm-d{color:#CFE3E1;}
+  .mm-rel{display:inline-block; font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:500; background:var(--amber-soft); color:#7A4F14; border-radius:4px; padding:1px 6px; margin-right:7px; vertical-align:1px; white-space:nowrap;}
+  .mm-count{flex:none; font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--ink-faint); margin-top:3px;}
+  .mm-row.l1 .mm-count{color:#CFE3E1;}
 
   /* ---------- Flashcards ---------- */
   .fc-toolbar{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:18px;}
@@ -551,18 +627,20 @@
 <main>
   <section class="panel active" id="panel-overview">
     <h2 class="panel-title">The lecture in one pass</h2>
-    <p class="panel-lede">Definitions, classifications, examples and exam focus — taken only from the lecture.</p>
+    <p class="panel-lede">Core idea, definitions, classifications, concepts, differences, stages, examples and exam focus — taken only from the lecture.</p>
     <div class="overview-grid" id="ovGrid"></div>
   </section>
   <section class="panel" id="panel-diagrams">
-    <h2 class="panel-title">Lecture figures, made clickable</h2>
-    <p class="panel-lede">Tap any element to read what it means.</p>
+    <h2 class="panel-title">Interactive diagrams</h2>
+    <p class="panel-lede">Processes, classifications and comparisons from the lecture. Tap a node to read its details and highlight its connections. Use + / − to zoom, and Reset view to return.</p>
+    <div class="dg-jump" id="dgJump"></div>
     <div id="diagHost"></div>
   </section>
   <section class="panel" id="panel-minimap">
     <h2 class="panel-title">Mini map</h2>
-    <p class="panel-lede">Tap a topic on the left — the details open on the right.</p>
-    <div class="minimap"><div class="mm-list" id="mmList"></div><div class="mm-detail" id="mmDetail"><span class="placeholder">Select a topic to read it in full.</span></div></div>
+    <p class="panel-lede">Start from the main topic, tap a node to open its branches, tap again to fold it.</p>
+    <div class="mm-bar"><button class="mm-btn" id="mmExpand" type="button">Expand all</button><button class="mm-btn" id="mmCollapse" type="button">Collapse all</button><span class="mm-hint">Amber tags show the relationship to the parent</span></div>
+    <ul class="mmtree" id="mmTree"></ul>
   </section>
   <!-- ================= FLASH CARDS ================= -->
   <section class="panel" id="panel-flash">
@@ -585,7 +663,7 @@
   <!-- ================= 5. QUIZ BANK ================= -->
   <section class="panel" id="panel-quiz">
     <h2 class="panel-title">Quiz Bank</h2>
-    <p class="panel-lede">Choose a difficulty level. Answer choices are re-shuffled every time you load the page.</p>
+    <p class="panel-lede">Choose a difficulty level. 25 Easy, 15 Medium and 10 Hard questions. Each answer comes with a short explanation.</p>
     <div class="fc-toolbar" id="quizLevels"></div>
     <div class="quiz-top">
       <span class="quiz-progress" id="quizProgress">Question 1 / 1</span>
@@ -620,6 +698,7 @@
       document.querySelectorAll('section.panel').forEach(function(p){ p.classList.remove('active'); });
       document.getElementById('panel-' + btn.dataset.panel).classList.add('active');
       window.scrollTo({top:0, behavior:'smooth'});
+      if(btn.dataset.panel==='diagrams'){ requestAnimationFrame(dgLayoutAll); }
     });
   });
 
@@ -630,145 +709,513 @@
   }
 var T="var(--teal)",E="var(--eosin)",A="var(--amber)";
 var overview=[
-[T,"Core idea",["Cells keep a steady state called <b>homeostasis</b>: intracellular milieu within a narrow physiologic range.","They can <b>adapt</b> → a new steady state, preserving viability and function."]],
-[E,"Cell injury",["Effect of stresses from <b>etiologic agents</b> → changes in the cell's internal and external environment.","Depends on <b>host factors</b> (type of cell/tissue) and the <b>injurious agent</b> (extent and type)."]],
-[A,"Fate of the normal cell",["<b>Altered functional demand</b> → Adaptations → stress removed → normal cell restored.","<b>Mild–moderate stress</b> → Reversible injury → stress removed → repair and healing.","<b>Severe, persistent stress</b> → Irreversible injury → cell death."]],
-[T,"Adaptations",["Reversible changes in <b>number, size, phenotype, metabolic activity or function</b> in response to environmental change.","<b>Physiologic</b>: normal hormone/mediator stimulation (breast, uterus in pregnancy).","<b>Pathologic</b>: stress responses that let cells modulate structure/function and escape injury.","Types: atrophy, hypertrophy, hyperplasia, metaplasia, dysplasia."]],
-[E,"Atrophy",["<b>Reduction in number and size</b> of parenchymal cells of an organ once normal.","<b>Physiologic</b>: ageing (loss of endocrine stimulation or arteriosclerosis) — lymphoid tissue, thymus in adult life.","<b>Pathologic</b>: starvation; ischemic (small kidney in renal artery atherosclerosis; brain in cerebral atherosclerosis); disuse (prolonged diminished activity)."]],
-[A,"Hypertrophy",["<b>Increase in size</b> of parenchymal cells → organ enlargement, <b>no change in cell number</b>.","Caused by increased functional demand or hormonal stimulation.","Physiologic: pregnant uterus (with hyperplasia).","Pathologic: cardiac muscle; smooth muscle (cardiac achalasia, pyloric stenosis, intestinal strictures, muscular arteries in hypertension); skeletal muscle (athletes, manual laborers); compensatory (nephrectomy)."]],
-[T,"Hyperplasia",["<b>Increase in number</b> of parenchymal cells → enlargement.","Occurs with hypertrophy; cells recruited from <b>G0 (resting) phase</b> into mitosis when stimulated.","Morphology: more cells due to increased <b>DNA synthesis</b> and mitoses."]],
-[E,"Cell types &amp; hyperplasia",["<b>Labile</b>: skin/mucous epithelium, bone marrow, lymph nodes — can.","<b>Stable</b>: parenchyma of liver, pancreas, kidney, adrenal, thyroid — can.","<b>Permanent</b>: neurons, cardiac and skeletal muscle — little or no capacity."]],
-[A,"Types of hyperplasia",["<b>Hormonal</b>: breast (puberty, pregnancy, lactation), pregnant uterus, endometrium after menstrual cycle, prostate in old age.","<b>Compensatory</b>: liver after partial hepatectomy; epidermis after skin abrasion; nephrons of the other kidney after nephrectomy.","<b>Pathologic</b>: excess hormones/growth factors — endometrial hyperplasia (estrogen excess); granulation tissue (fibroblasts and endothelial cells)."]],
-[T,"Exam focus",["Hypertrophy = size; hyperplasia = number.","Physiologic vs pathologic examples for each adaptation.","Labile / stable / permanent cells and hyperplasia.","The three-way fate flow chart.","Metaplasia and dysplasia appear in the figure only (no definitions given)."]]
+[T,"1 · Core Idea",[
+"Lecture 2 (Introduction to pathophysiology): <b>Cell Injury, Cell Death &amp; Adaptation</b>.",
+"Cells maintain a steady state (<b>homeostasis</b>). Under stress they either <b>adapt</b> to a new steady state that preserves viability and function, or they are <b>injured</b> — reversibly or irreversibly (→ cell death)."
+]],
+[E,"2 · Learning Points",[
+"Homeostasis: intracellular milieu kept within a narrow physiologic range.",
+"Cell injury = effect of stresses from etiologic agents; outcome depends on <b>host factors</b> and the <b>injurious agent</b>.",
+"Three fates of the normal cell: adaptation, reversible injury, irreversible injury → cell death.",
+"Adaptations are reversible; they are <b>physiologic</b> or <b>pathologic</b>.",
+"Atrophy = ↓ number and size; Hypertrophy = ↑ size only; Hyperplasia = ↑ number.",
+"Hyperplasia depends on cell type: labile, stable (can) vs permanent (little or no capacity).",
+"Hyperplasia types: hormonal, compensatory, pathologic."
+]],
+[A,"3 · Key Definitions",[
+"<b>Homeostasis</b>: steady state in which the intracellular milieu is kept within a fairly narrow range of physiologic.",
+"<b>Cell injury</b>: effect of a variety of stresses due to etiologic agents a cell encounters, resulting in changes in its internal and external environment.",
+"<b>Adaptations</b>: reversible changes in the number, size, phenotype, metabolic activity, or functions of cells in response to changes in their environment.",
+"<b>Physiologic adaptations</b>: responses of cells to normal stimulation by hormones or endogenous chemical mediators.",
+"<b>Pathologic adaptations</b>: responses to stress that allow cells to modulate their structure and function and thus escape injury.",
+"<b>Atrophy</b>: reduction of the number and size of parenchymal cells of an organ or its parts which was once normal.",
+"<b>Hypertrophy</b>: increase in the size of parenchymal cells resulting in enlargement of the organ or tissue, without any change in the number of cells.",
+"<b>Hyperplasia</b>: increase in the number of parenchymal cells resulting in enlargement of the organ or tissue.",
+"<b>Compensatory hypertrophy</b>: occurs in an organ when the contralateral organ is removed.",
+"<b>Hormonal hyperplasia</b>: hyperplasia under the influence of hormonal stimulation.",
+"<b>Compensatory hyperplasia</b>: hyperplasia following removal of part of an organ, or in the contralateral organ of a paired organ.",
+"<b>Labile / Stable / Permanent cells</b>: classes of cells by hyperplastic (regenerative) growth potential."
+]],
+[T,"4 · Classification / Types",[
+"<b>Fate of the normal cell</b> (by type of stress): <b>Altered functional demand</b> → Adaptations; <b>Mild to moderate stress</b> → Reversible cell injury; <b>Severe, persistent stress</b> → Irreversible cell injury.",
+"<b>Adaptations</b> (figure): Atrophy, Hypertrophy, Hyperplasia, Metaplasia, Dysplasia — “adaptive disorders of growth”.",
+"<b>Reversible cell injury</b> includes: Degenerations, Subcellular alterations, Intracellular accumulations.",
+"<b>Factors in cell injury</b>: (i) host factors — type of cell and tissue involved; (ii) injurious agent — extent and type of injury.",
+"<b>Adaptation types</b>: 1) Physiologic; 2) Pathologic.",
+"<b>Atrophy</b>: A. Physiologic (ageing); B. Pathologic → 1. Starvation, 2. Ischemic, 3. Disuse.",
+"<b>Hypertrophy</b>: A. Physiologic; B. Pathologic → cardiac muscle, smooth muscle, skeletal muscle, compensatory.",
+"<b>Hyperplasia</b>: A. Physiologic → 1. Hormonal, 2. Compensatory; B. Pathologic.",
+"<b>Cells by hyperplastic potential</b>: Labile, Stable, Permanent."
+]],
+[E,"5 · Important Concepts",[
+"Adaptation achieves a <b>new steady state</b> and preserves viability and function.",
+"Hypertrophy (physiologic or pathologic) is caused by <b>increased functional demand</b> or <b>hormonal stimulation</b>.",
+"Atrophy may be physiologic (normal ageing in some tissues: loss of endocrine stimulation or arteriosclerosis) or pathologic.",
+"Hyperplasia and hypertrophy <b>occur together</b>.",
+"Hyperplasia arises from increased recruitment of cells from the <b>G0 (resting) phase</b> into mitosis when stimulated.",
+"<b>Not all body cells</b> possess hyperplastic growth potential.",
+"Most pathologic hyperplasia = excessive stimulation by hormones or growth factors.",
+"<b>Morphology of hyperplasia</b>: enlarged organ/tissue + more cells, due to increased rate of DNA synthesis and hence increased mitoses."
+]],
+[A,"6 · Important Differences",[
+"<b>Atrophy</b>: ↓ number and size · <b>Hypertrophy</b>: ↑ size, no change in number · <b>Hyperplasia</b>: ↑ number.",
+"<b>Physiologic vs pathologic adaptation</b>: normal hormone/mediator stimulation vs stress responses that let cells escape injury.",
+"<b>Hormonal vs compensatory hyperplasia</b>: hormonal stimulation vs removal of part of an organ / the contralateral organ.",
+"<b>Labile and stable cells</b> can undergo hyperplasia; <b>permanent cells</b> have little or no regenerative hyperplastic capacity.",
+"<b>Adaptation vs reversible vs irreversible injury</b>: altered functional demand vs mild–moderate stress vs severe, persistent stress."
+]],
+[T,"7 · Processes / Stages",[
+"<b>Normal cell</b> → altered functional demand → Adaptations → <i>stress removed</i> → normal cell restored.",
+"<b>Normal cell</b> → mild to moderate stress → Reversible cell injury → <i>stress removed</i> → repair and healing.",
+"<b>Normal cell</b> → severe, persistent stress → Irreversible cell injury → cell death.",
+"<b>Hyperplasia sequence</b>: stimulus → recruitment from G0 → increased DNA synthesis → increased mitoses → ↑ number of cells → enlarged organ/tissue."
+]],
+[E,"8 · Examples",[
+"<b>Physiologic adaptation</b>: hormone-induced enlargement of breast and uterus in pregnancy.",
+"<b>Physiologic atrophy</b>: lymphoid tissue with age; thymus in adult life.",
+"<b>Pathologic atrophy</b>: starvation; ischemic — small atrophic kidney in renal artery atherosclerosis, brain atrophy in cerebral atherosclerosis; disuse — prolonged diminished functional activity.",
+"<b>Physiologic hypertrophy</b>: enlarged uterus in pregnancy (also hyperplasia).",
+"<b>Pathologic hypertrophy</b>: cardiac muscle in cardiovascular diseases; smooth muscle — cardiac achalasia (esophagus), pyloric stenosis (stomach), intestinal strictures, muscular arteries in hypertension; skeletal muscle — athletes and manual laborers.",
+"<b>Compensatory hypertrophy</b>: after unilateral nephrectomy in a young patient — hypertrophy as well as hyperplasia of nephrons of the other kidney.",
+"<b>Labile cells</b>: epithelium of skin and mucous membranes, bone marrow, lymph nodes. <b>Stable cells</b>: parenchyma of liver, pancreas, kidney, adrenal, thyroid. <b>Permanent cells</b>: neurons, cardiac and skeletal muscle.",
+"<b>Hormonal hyperplasia</b>: female breast (puberty, pregnancy, lactation); pregnant uterus; endometrium after a normal menstrual cycle; prostate in old age.",
+"<b>Compensatory hyperplasia</b>: liver after partial hepatectomy; epidermis after skin abrasion; nephrons of the other kidney after nephrectomy.",
+"<b>Pathologic hyperplasia</b>: endometrial hyperplasia after estrogen excess; wound healing — granulation tissue from proliferation of fibroblasts and endothelial cells.",
+"<b>Figure examples</b>: normal bronchial epithelial cell → atrophy, hypertrophy, hyperplasia, metaplasia, dysplasia; gingival hyperplasia."
+]],
+[A,"9 · Clinical / Practical Importance",[
+"Pathologic adaptations let cells escape injury, but are linked to disease: cardiovascular disease (cardiac hypertrophy), hypertension (muscular arteries), cardiac achalasia, pyloric stenosis, intestinal strictures.",
+"Ischemic atrophy links vascular disease (atherosclerosis of renal/cerebral arteries) to organ shrinkage.",
+"Pathologic hyperplasia: estrogen excess → endometrial hyperplasia; wound healing → granulation tissue.",
+"Compensatory responses (liver, epidermis, kidney) restore or compensate for lost tissue."
+]],
+[T,"10 · Exam Focus",[
+"Definitions of homeostasis, cell injury, adaptations, atrophy, hypertrophy, hyperplasia.",
+"Hypertrophy = size (no change in number); hyperplasia = number; atrophy = ↓ number and size.",
+"Physiologic vs pathologic examples for atrophy, hypertrophy and hyperplasia.",
+"Causes of pathologic atrophy: starvation, ischemic, disuse.",
+"Pathologic hypertrophy examples: cardiac, smooth muscle (achalasia, pyloric stenosis, strictures, hypertensive arteries), skeletal, compensatory.",
+"Labile / stable / permanent cells and examples; G0 → mitosis in hyperplasia.",
+"Hormonal vs compensatory hyperplasia and their examples.",
+"The three-way fate flow chart and what each branch includes.",
+"Metaplasia and dysplasia appear only in the figure (no definitions given in the lecture)."
+]]
 ];
 document.getElementById("ovGrid").innerHTML=overview.map(function(g){return '<div class="ov-group" style="--tone:'+g[0]+'"><h3>'+g[1]+'</h3><ul>'+g[2].map(function(x){return '<li>'+x+'</li>';}).join('')+'</ul></div>';}).join('');
 
-/* Diagrams: bands of chips -> caption */
-var diags=[
-{t:"Fate of the normal cell",g:"FIG. 1",bands:[["Stress type → outcome",[
-["Altered functional demand","Adaptations","Atrophy, hypertrophy, hyperplasia, metaplasia, dysplasia. <b>Stress removed → normal cell restored.</b>"],
-["Mild to moderate stress","Reversible cell injury","Degenerations, subcellular alterations, intracellular accumulations. <b>Stress removed → repair and healing.</b>"],
-["Severe, persistent stress","Irreversible cell injury","Leads to <b>cell death</b>."]]]]},
-{t:"Adaptations — classification",g:"FIG. 2",bands:[["Two types",[
-["Physiologic","Physiologic adaptations","Responses to normal stimulation by hormones or endogenous chemical mediators, e.g. hormone-induced enlargement of breast and uterus in pregnancy."],
-["Pathologic","Pathologic adaptations","Responses to stress that let cells modulate their structure and function and escape injury."]]],
-["Examples (bronchial epithelial cell figure)",[
-["Atrophy","Atrophy","Reduction of number and size of parenchymal cells of an organ once normal."],
-["Hypertrophy","Hypertrophy","Increase in size of parenchymal cells; no change in number."],
-["Hyperplasia","Hyperplasia","Increase in number of parenchymal cells."],
-["Metaplasia","Metaplasia","Listed as an adaptation in the figure; no definition given in the lecture."],
-["Dysplasia","Dysplasia","Listed as an adaptation in the figure; no definition given in the lecture."]]]]},
-{t:"Atrophy — causes",g:"FIG. 3",bands:[["Physiologic atrophy",[
-["Ageing","Normal process of ageing","In some tissues; due to loss of endocrine stimulation or arteriosclerosis. E.g. lymphoid tissue with age, thymus in adult life."]]],
-["Pathologic atrophy",[
-["Starvation","Starvation atrophy","Atrophy occurring in starvation."],
-["Ischemic","Ischemic atrophy","Small atrophic kidney in atherosclerosis of renal artery; atrophy of the brain in cerebral atherosclerosis."],
-["Disuse","Disuse atrophy","Prolonged diminished functional activity of the organ."]]]]},
-{t:"Hyperplasia — causes",g:"FIG. 4",bands:[["Physiologic",[
-["Hormonal","Hormonal hyperplasia","Under hormonal stimulation: female breast at puberty, pregnancy, lactation; pregnant uterus; endometrium after a normal menstrual cycle; prostate in old age."],
-["Compensatory","Compensatory hyperplasia","After removal of part of an organ, or in the contralateral organ of a paired organ: liver after partial hepatectomy, epidermis after skin abrasion, nephrons of the other kidney."]]],
-["Pathologic",[
-["Excess stimulation","Pathologic hyperplasia","Excessive hormones or growth factors: endometrial hyperplasia after estrogen excess; wound healing granulation tissue from proliferation of fibroblasts and endothelial cells."]]]]},
-{t:"Cell types and hyperplastic capacity",g:"FIG. 5",bands:[["Capacity for hyperplasia",[
-["Labile cells","Labile cells — can undergo hyperplasia","Epithelial cells of skin and mucous membranes; cells of bone marrow and lymph nodes."],
-["Stable cells","Stable cells — can undergo hyperplasia","Parenchymal cells of liver, pancreas, kidney, adrenal and thyroid."],
-["Permanent cells","Permanent cells — little or no capacity","Neurons, cardiac and skeletal muscle: little or no regenerative hyperplastic growth."]]]]}
+/* ================= Interactive diagrams (source: Lecture 2 only) ================= */
+var DG_KINDS={main:"Main concept",branch:"Category / branch",stage:"Cause / mechanism / step",result:"Outcome / result",warn:"Warning / irreversible",leaf:"Example / detail"};
+function dgN(id,l,k,r,c,o){o=o||{};o.id=id;o.l=l;o.k=k;o.r=r;o.c=c;return o;}
+function dgE(s,t,rel,lt){return {source:s,target:t,relationship:rel,lt:lt};}
+var DIAGRAMS=[
+{id:"d01",title:"Fate of the normal cell",type:"Flowchart",cols:3,rel:true,fold:false,
+ purpose:"Shows the three pathways a normal cell can follow, depending on the type of stress, and how each ends.",
+ src:"Cell injury flow chart (normal cell → adaptations / reversible / irreversible cell injury).",
+ nodes:[
+ dgN("normal","Normal cell","main",0,1,{d:"The starting point of the flow chart. Cells normally maintain a steady state called homeostasis. Three pathways lead from the normal cell, depending on the type of stress."}),
+ dgN("adapt","Adaptations","branch",1,0,{s:"Atrophy · Hypertrophy · Hyperplasia · Metaplasia · Dysplasia",d:"Reversible changes in the number, size, phenotype, metabolic activity, or functions of cells in response to changes in their environment.",p:["Reached through altered functional demand","Listed: atrophy, hypertrophy, hyperplasia, metaplasia, dysplasia"]}),
+ dgN("rev","Reversible cell injury","stage",1,1,{s:"Degenerations · Subcellular alterations · Intracellular accumulations",d:"Reached through mild to moderate stress.",p:["Degenerations","Subcellular alterations","Intracellular accumulations"]}),
+ dgN("irr","Irreversible cell injury","warn",1,2,{d:"Reached through severe, persistent stress. It leads to cell death."}),
+ dgN("restored","Normal cell restored","result",2,0,{d:"Outcome of adaptations once the stress is removed."}),
+ dgN("heal","Repair and healing","result",2,1,{d:"Outcome of reversible cell injury once the stress is removed."}),
+ dgN("death","Cell death","warn",2,2,{d:"Outcome of irreversible cell injury (severe, persistent stress)."})],
+ connections:[dgE("normal","adapt","Altered functional demand",.75),dgE("normal","rev","Mild to moderate stress",.3),dgE("normal","irr","Severe, persistent stress",.75),
+ dgE("adapt","restored","Stress removed"),dgE("rev","heal","Stress removed"),dgE("irr","death","leads to")]},
+
+{id:"d02",title:"Homeostasis, adaptation and cell injury",type:"Concept Map",cols:4,rel:true,fold:false,
+ purpose:"Connects the opening concepts: how cells keep a steady state, how they adapt, and how cell injury arises.",
+ src:"Cell Injury, Cell Death & Adaptation (intro slide); Cell injury definition slide.",
+ nodes:[
+ dgN("homeo","Homeostasis","main",0,0,{cs:2,s:"Steady state maintained by cells",d:"Cells normally maintain a steady state called homeostasis, in which the intracellular milieu is kept within a fairly narrow physiologic range."}),
+ dgN("adapt","Adaptation","branch",1,0,{cs:2,s:"Cells can undergo adaptation",d:"Cells can undergo adaptation, achieving a new steady state and preserving viability and function."}),
+ dgN("newss","New steady state","result",2,0,{d:"Adaptation achieves a new steady state."}),
+ dgN("viab","Viability and function preserved","result",2,1,{d:"Adaptation preserves viability and function."}),
+ dgN("stress","Stresses","stage",0,2,{cs:2,s:"Due to etiologic agents",d:"A variety of stresses due to etiologic agents that a cell encounters."}),
+ dgN("injury","Cell injury","main",1,2,{cs:2,s:"Effect of stresses",d:"The effect of a variety of stresses due to etiologic agents a cell encounters, resulting in changes in its internal and external environment."}),
+ dgN("host","Host factors","branch",2,2,{s:"Type of cell and tissue involved",d:"Factor (i): host factors, i.e. the type of cell and tissue involved."}),
+ dgN("agent","Injurious agent factors","branch",2,3,{s:"Extent and type of cell injury",d:"Factor (ii): factors pertaining to the injurious agent, i.e. the extent and type of cell injury."}),
+ dgN("env","Changes in internal and external environment","result",3,2,{cs:2,d:"Cell injury results in changes in the cell's internal and external environment."})],
+ connections:[dgE("homeo","adapt","cells can undergo"),dgE("adapt","newss","achieving"),dgE("adapt","viab","preserving"),
+ dgE("stress","injury","leads to"),dgE("injury","host","factor (i)"),dgE("injury","agent","factor (ii)"),dgE("injury","env","results in changes in",.9)]},
+
+{id:"d03",title:"Adaptations: physiologic and pathologic",type:"Classification Tree",cols:2,rel:true,fold:true,
+ purpose:"Separates the two types of adaptation by what the cell responds to and what the response achieves.",
+ src:"I. Adaptations; \"It is of two types\" slide.",
+ nodes:[
+ dgN("adapt","Adaptations","main",0,0,{cs:2,s:"Reversible changes in response to environment",d:"Reversible changes in the number, size, phenotype, metabolic activity, or functions of cells in response to changes in their environment. It is of two types."}),
+ dgN("phys","Physiologic adaptations","branch",1,0,{d:"Usually represent responses of cells to normal stimulation by hormones or endogenous chemical mediators."}),
+ dgN("path","Pathologic adaptations","branch",1,1,{d:"Responses to stress that allow cells to modulate their structure and function and thus escape injury."}),
+ dgN("stim","Normal stimulation","stage",2,0,{s:"Hormones or endogenous chemical mediators",d:"Physiologic adaptations respond to normal stimulation by hormones or endogenous chemical mediators."}),
+ dgN("stress","Stress","stage",2,1,{d:"Pathologic adaptations are responses to stress."}),
+ dgN("ex","Breast and uterus in pregnancy","leaf",3,0,{ex:["Hormone-induced enlargement of the breast and uterus during pregnancy"],d:"Lecture example of physiologic adaptation."}),
+ dgN("esc","Cells escape injury","result",3,1,{s:"Modulate structure and function",d:"Cells modulate their structure and function and thus escape injury."})],
+ connections:[dgE("adapt","phys","type 1"),dgE("adapt","path","type 2"),dgE("phys","stim","response to"),dgE("path","stress","response to"),dgE("stim","ex","e.g."),dgE("stress","esc","allows cells to")]},
+
+{id:"d04",title:"Adaptive disorders of growth",type:"Structure Diagram",cols:3,rel:false,fold:false,
+ purpose:"Reproduces the lecture figure: the normal bronchial epithelial cell and the five adaptive changes (A–E) it can show.",
+ src:"Figure \"Adaptive disorders of growth\" and the definitions of atrophy, hypertrophy and hyperplasia.",
+ nodes:[
+ dgN("atrophy","A · Atrophy","branch",0,0,{s:"↓ number and size of cells",d:"A reduction of the number and size of parenchymal cells of an organ or its parts which was once normal.",p:["May occur from physiologic or pathologic causes"]}),
+ dgN("hyper","B · Hypertrophy","branch",0,1,{s:"↑ cell size, no change in number",d:"An increase in the size of parenchymal cells resulting in enlargement of the organ or tissue, without any change in the number of cells.",p:["May be physiologic or pathologic","Caused by increased functional demand or hormonal stimulation"]}),
+ dgN("plasia","C · Hyperplasia","branch",0,2,{s:"↑ number of cells",d:"An increase in the number of parenchymal cells resulting in enlargement of the organ or tissue.",p:["May be physiologic or pathologic","Both hyperplasia and hypertrophy occur together"]}),
+ dgN("cell","Normal bronchial epithelial cell","main",1,1,{d:"The normal cell in the lecture figure, from which the five adaptive disorders of growth (A–E) are drawn."}),
+ dgN("meta","D · Metaplasia","leaf",2,0,{s:"Shown in the figure only",d:"Listed as an adaptive disorder of growth in the figure. No definition is given in the lecture."}),
+ dgN("dys","E · Dysplasia","leaf",2,2,{s:"Shown in the figure only",d:"Listed as an adaptive disorder of growth in the figure. No definition is given in the lecture."})],
+ connections:[dgE("cell","atrophy","adaptive change"),dgE("cell","hyper","adaptive change"),dgE("cell","plasia","adaptive change"),dgE("cell","meta","adaptive change"),dgE("cell","dys","adaptive change")]},
+
+{id:"d05",title:"Atrophy: physiologic and pathologic causes",type:"Classification Tree",cols:4,rel:false,fold:true,
+ purpose:"Organises atrophy by cause: normal ageing versus the three pathologic causes, with the lecture examples.",
+ src:"1) Atrophy; A. Physiologic atrophy; B. Pathologic atrophy.",
+ nodes:[
+ dgN("atrophy","Atrophy","main",0,1,{cs:2,s:"↓ number and size of parenchymal cells",d:"A reduction of the number and size of parenchymal cells of an organ or its parts which was once normal. It may occur from physiologic or pathologic causes."}),
+ dgN("phys","Physiologic atrophy","branch",1,0,{d:"Atrophy as a normal process of ageing in some tissues."}),
+ dgN("path","Pathologic atrophy","branch",1,1,{cs:3,d:"Pathologic causes of atrophy: starvation, ischemia and disuse."}),
+ dgN("age","Normal process of ageing","stage",2,0,{s:"Could be due to loss of endocrine stimulation or arteriosclerosis",d:"Atrophy is a normal process of ageing in some tissues, which could be due to loss of endocrine stimulation or arteriosclerosis."}),
+ dgN("starv","Starvation atrophy","stage",2,1,{d:"Atrophy occurring in starvation."}),
+ dgN("isch","Ischemic atrophy","stage",2,2,{d:"Atrophy of an ischemic cause, e.g. in atherosclerosis of an artery."}),
+ dgN("disuse","Disuse atrophy","stage",2,3,{s:"Prolonged diminished functional activity",d:"Prolonged diminished functional activity is associated with disuse atrophy of the organ. The lecture shows an example as a clinical image."}),
+ dgN("agex","Examples","leaf",3,0,{ex:["Lymphoid tissue with age","Thymus in adult life"],d:"Lecture examples of physiologic atrophy."}),
+ dgN("ischex","Examples","leaf",3,2,{ex:["Small atrophic kidney in atherosclerosis of renal artery","Atrophy of the brain in cerebral atherosclerosis"],d:"Lecture examples of ischemic atrophy."})],
+ connections:[dgE("atrophy","phys","may be"),dgE("atrophy","path","may be"),dgE("phys","age","is a"),dgE("path","starv","cause 1"),dgE("path","isch","cause 2"),dgE("path","disuse","cause 3"),dgE("age","agex","e.g."),dgE("isch","ischex","e.g.")]},
+
+{id:"d06",title:"Hypertrophy: causes and types",type:"Classification Tree",cols:5,rel:false,fold:true,
+ purpose:"Shows what causes hypertrophy and how its physiologic and pathologic forms divide, with the lecture examples.",
+ src:"2) Hypertrophy; A. Physiologic hypertrophy; B. Pathologic hypertrophy (1–4).",
+ nodes:[
+ dgN("dem","Increased functional demand","stage",0,1,{d:"Hypertrophy, whether physiologic or pathologic, is caused by increased functional demand or by hormonal stimulation."}),
+ dgN("horm","Hormonal stimulation","stage",0,3,{d:"Hypertrophy, whether physiologic or pathologic, is caused by increased functional demand or by hormonal stimulation."}),
+ dgN("hyp","Hypertrophy","main",1,2,{s:"↑ cell size, no change in number",d:"An increase in the size of parenchymal cells resulting in enlargement of the organ or tissue, without any change in the number of cells."}),
+ dgN("phys","Physiologic hypertrophy","branch",2,0,{d:"Enlarged size of the uterus in pregnancy is an example of physiologic hypertrophy as well as hyperplasia."}),
+ dgN("path","Pathologic hypertrophy","branch",2,1,{cs:4,d:"Examples of certain diseases associated with hypertrophy."}),
+ dgN("uterus","Uterus in pregnancy","leaf",3,0,{ex:["Enlarged uterus in pregnancy","Also an example of hyperplasia"],d:"Lecture example of physiologic hypertrophy."}),
+ dgN("card","Cardiac muscle","branch",3,1,{s:"In a number of cardiovascular diseases",d:"Hypertrophy of cardiac muscle may occur in a number of cardiovascular diseases."}),
+ dgN("smooth","Smooth muscle","branch",3,2,{d:"Hypertrophy of smooth muscle, e.g. cardiac achalasia, pyloric stenosis, intestinal strictures, muscular arteries in hypertension."}),
+ dgN("skel","Skeletal muscle","branch",3,3,{s:"Athletes and manual laborers",d:"Hypertrophy of skeletal muscle, e.g. hypertrophied muscles in athletes and manual laborers."}),
+ dgN("comp","Compensatory hypertrophy","branch",3,4,{s:"Contralateral organ removed",d:"May occur in an organ when the contralateral organ is removed."}),
+ dgN("smex","Examples","leaf",4,2,{ex:["Cardiac achalasia (esophagus)","Pyloric stenosis (stomach)","Intestinal strictures","Muscular arteries in hypertension"],d:"Lecture examples of smooth muscle hypertrophy."}),
+ dgN("compex","Example","leaf",4,4,{ex:["Nephrectomy on one side in a young patient","Hypertrophy as well as hyperplasia of the nephrons of the other kidney"],d:"Lecture example of compensatory hypertrophy."})],
+ connections:[dgE("dem","hyp","causes"),dgE("horm","hyp","causes"),dgE("hyp","phys","may be"),dgE("hyp","path","may be"),dgE("phys","uterus","e.g."),
+ dgE("path","card","includes"),dgE("path","smooth","includes"),dgE("path","skel","includes"),dgE("path","comp","includes"),dgE("smooth","smex","e.g."),dgE("comp","compex","e.g.")]},
+
+{id:"d07",title:"Hyperplasia: mechanism",type:"Flowchart",cols:1,rel:true,fold:false,
+ purpose:"Follows how a stimulus ends in more cells and an enlarged organ, in the order the lecture describes it.",
+ src:"3) Hyperplasia (G0 recruitment) and Morphologic features (DNA synthesis, mitoses).",
+ nodes:[
+ dgN("s1","Stimulus","stage",0,0,{n:1,s:"When stimulated",d:"Cells undergo hyperplasia when stimulated."}),
+ dgN("s2","Recruitment of cells from the G0 (resting) phase","stage",1,0,{n:2,s:"Of the cell cycle, to undergo mitosis",d:"Hyperplasia occurs due to increased recruitment of cells from the G0 (resting) phase of the cell cycle to undergo mitosis, when stimulated."}),
+ dgN("s3","Increased rate of DNA synthesis","stage",2,0,{n:3,d:"Morphologic feature: increased rate of DNA synthesis."}),
+ dgN("s4","Increased mitoses","stage",3,0,{n:4,d:"Increased rate of DNA synthesis and hence increased mitoses of the cells."}),
+ dgN("s5","Increased number of cells","result",4,0,{n:5,d:"Hyperplasia is an increase in the number of parenchymal cells."}),
+ dgN("s6","Enlarged organ or tissue","result",5,0,{n:6,d:"Enlargement of the affected organ or tissue. Both hyperplasia and hypertrophy occur together."})],
+ connections:[dgE("s1","s2","recruits"),dgE("s2","s3","leads to"),dgE("s3","s4","hence"),dgE("s4","s5","leads to"),dgE("s5","s6","results in")]},
+
+{id:"d08",title:"Cell classes and hyperplastic capacity",type:"Classification Tree",cols:3,rel:false,fold:true,
+ purpose:"Shows which cell classes can undergo hyperplasia and which have little or no capacity, with examples.",
+ src:"3) Hyperplasia: labile, stable and permanent cells.",
+ nodes:[
+ dgN("root","Body cells","main",0,1,{s:"Not all possess hyperplastic growth potential",d:"All body cells do not possess hyperplastic growth potential."}),
+ dgN("can","Can undergo hyperplasia","result",1,0,{cs:2,d:"Labile cells and stable cells can undergo hyperplasia."}),
+ dgN("little","Little or no regenerative hyperplastic growth","warn",1,2,{d:"Permanent cells have little or no capacity for regenerative hyperplastic growth."}),
+ dgN("labile","Labile cells","branch",2,0,{d:"Can undergo hyperplasia."}),
+ dgN("stable","Stable cells","branch",2,1,{d:"Can undergo hyperplasia."}),
+ dgN("perm","Permanent cells","branch",2,2,{d:"Little or no capacity for regenerative hyperplastic growth."}),
+ dgN("lex","Examples","leaf",3,0,{ex:["Epithelial cells of skin and mucous membranes","Cells of bone marrow and lymph nodes"]}),
+ dgN("sex","Examples","leaf",3,1,{ex:["Parenchymal cells of liver, pancreas, kidney, adrenal and thyroid"]}),
+ dgN("pex","Examples","leaf",3,2,{ex:["Neurons","Cardiac muscle","Skeletal muscle"]})],
+ connections:[dgE("root","can","includes"),dgE("root","little","includes"),dgE("can","labile","includes"),dgE("can","stable","includes"),dgE("little","perm","includes"),dgE("labile","lex","e.g."),dgE("stable","sex","e.g."),dgE("perm","pex","e.g.")]},
+
+{id:"d09",title:"Hyperplasia: types and causes",type:"Classification Tree",cols:4,rel:false,fold:true,
+ purpose:"Divides hyperplasia into physiologic (hormonal, compensatory) and pathologic, with every lecture example.",
+ src:"CAUSES slide; A. Physiologic hyperplasia (1, 2); B. Pathologic hyperplasia.",
+ nodes:[
+ dgN("hpl","Hyperplasia","main",0,1,{cs:2,s:"↑ number of parenchymal cells",d:"An increase in the number of parenchymal cells resulting in enlargement of the organ or tissue. It may be physiologic and pathologic."}),
+ dgN("phys","Physiologic hyperplasia","branch",1,0,{cs:2,s:"Two most common types: hormonal and compensatory",d:"The two most common types of physiologic hyperplasia are hormonal and compensatory."}),
+ dgN("path","Pathologic hyperplasia","branch",1,2,{cs:2,s:"Mostly excessive stimulation",d:"Most examples of pathologic hyperplasia are due to excessive stimulation of hormones or growth factors."}),
+ dgN("horm","Hormonal hyperplasia","branch",2,0,{s:"Under hormonal stimulation",d:"Hyperplasia occurring under the influence of hormonal stimulation."}),
+ dgN("comp","Compensatory hyperplasia","branch",2,1,{s:"After removal of part of an organ or the contralateral paired organ",d:"Hyperplasia occurring following removal of part of an organ or in the contralateral organ in a paired organ."}),
+ dgN("exc","Excessive stimulation","stage",2,2,{s:"By hormones or growth factors",d:"Most pathologic hyperplasia is due to excessive stimulation of hormones or growth factors."}),
+ dgN("wound","Wound healing","branch",2,3,{d:"In wound healing, there is formation of granulation tissue due to proliferation of fibroblasts and endothelial cells."}),
+ dgN("hex","Examples","leaf",3,0,{ex:["Female breast at puberty, during pregnancy and lactation","Pregnant uterus","Normal endometrium after a normal menstrual cycle","Prostate in old age"]}),
+ dgN("cex","Examples","leaf",3,1,{ex:["Regeneration of the liver following partial hepatectomy","Regeneration of epidermis after skin abrasion","Nephrons of the other kidney after nephrectomy on one side"]}),
+ dgN("eex","Example","leaf",3,2,{ex:["Endometrial hyperplasia following estrogen excess"]}),
+ dgN("wex","Granulation tissue","leaf",3,3,{ex:["Proliferation of fibroblasts and endothelial cells"]})],
+ connections:[dgE("hpl","phys","may be"),dgE("hpl","path","may be"),dgE("phys","horm","type 1"),dgE("phys","comp","type 2"),dgE("path","exc","due to"),dgE("path","wound","e.g."),
+ dgE("horm","hex","e.g."),dgE("comp","cex","e.g."),dgE("exc","eex","e.g."),dgE("wound","wex","forms")]}
 ];
-var host=document.getElementById("diagHost");
-diags.forEach(function(d,i){
- var h='<div class="diagram-card"><div class="diagram-head"><h3>'+d.t+'</h3><span class="tag">'+d.g+'</span></div><div class="diagram-body">';
- d.bands.forEach(function(b){h+='<div class="tree-band"><span class="band-label">'+b[0]+'</span><div class="chips">'+b[1].map(function(c,j){return '<button class="chip" data-i="'+i+'" data-k="'+b[0]+'|'+j+'">'+c[0]+'</button>';}).join('')+'</div></div>';});
- h+='<div class="caption-box" id="dcap'+i+'"><span class="placeholder">Tap an element above.</span></div></div></div>';
- host.insertAdjacentHTML('beforeend',h);
-});
-host.insertAdjacentHTML('beforeend','<div class="diagram-card"><div class="diagram-head"><h3>Hypertrophy vs. hyperplasia</h3><span class="tag">FIG. 6</span></div><div class="diagram-body"><table class="dx-table"><thead><tr><th></th><th>Hypertrophy</th><th>Hyperplasia</th></tr></thead><tbody><tr><td class="dtype">Change</td><td>Increase in cell size</td><td>Increase in cell number</td></tr><tr><td class="dtype">Cell number</td><td>Unchanged</td><td>Increased (more mitoses, increased DNA synthesis)</td></tr><tr><td class="dtype">Mechanism</td><td>Increased functional demand or hormonal stimulation</td><td>Recruitment of cells from G0 into mitosis when stimulated</td></tr><tr><td class="dtype">Physiologic example</td><td>Pregnant uterus</td><td>Pregnant uterus; breast at puberty</td></tr><tr><td class="dtype">Compensatory example</td><td>Remaining kidney after nephrectomy</td><td>Nephrons of the other kidney; liver after partial hepatectomy</td></tr></tbody></table><p class="hint">Both often occur together.</p></div></div>');
-host.querySelectorAll('.chip').forEach(function(b){b.addEventListener('click',function(){
- var i=+b.dataset.i,p=b.dataset.k.split('|'),band=diags[i].bands.filter(function(x){return x[0]===p[0];})[0],c=band[1][+p[1]];
- host.querySelectorAll('.chip[data-i="'+i+'"]').forEach(function(x){x.classList.remove('active');});b.classList.add('active');
- setCap('dcap'+i,c[1],c[2]);});});
+
+var DG_CMP={id:"d10",title:"Atrophy vs hypertrophy vs hyperplasia",type:"Comparison",
+ purpose:"Compares the three growth adaptations side by side. Tap a cell, row or column heading for details.",
+ src:"Definitions and causes of atrophy, hypertrophy and hyperplasia; Morphologic features of hyperplasia.",
+ cols:[
+ {l:"Atrophy",d:"A reduction of the number and size of parenchymal cells of an organ or its parts which was once normal."},
+ {l:"Hypertrophy",d:"An increase in the size of parenchymal cells resulting in enlargement of the organ or tissue, without any change in the number of cells."},
+ {l:"Hyperplasia",d:"An increase in the number of parenchymal cells resulting in enlargement of the organ or tissue."}],
+ rows:[
+ {l:"Cell number",c:[["↓ Reduced","A reduction of the number and size of parenchymal cells."],["= No change","Enlargement of the organ or tissue without any change in the number of cells."],["↑ Increased","Increase in the number of cells, due to increased rate of DNA synthesis and hence increased mitoses."]]},
+ {l:"Cell size",c:[["↓ Reduced","A reduction of the number and size of parenchymal cells."],["↑ Increased","An increase in the size of parenchymal cells."],["Not stated","The lecture defines hyperplasia by an increase in cell number only."]]},
+ {l:"Effect on organ or tissue",c:[["Reduction","Reduction of the parenchymal cells of an organ or its parts which was once normal."],["Enlargement","Enlargement of the organ or tissue."],["Enlargement","Enlargement of the organ or tissue."]]},
+ {l:"Cause / mechanism",c:[["Physiologic or pathologic causes","Atrophy may occur from physiologic or pathologic causes: normal ageing in some tissues (loss of endocrine stimulation or arteriosclerosis), starvation, ischemia, disuse."],["Increased functional demand or hormonal stimulation","In either physiologic or pathologic hypertrophy, it is caused by increased functional demand or by hormonal stimulation."],["Recruitment of cells from G0 into mitosis","Increased recruitment of cells from the G0 (resting) phase of the cell cycle to undergo mitosis, when stimulated."]]},
+ {l:"Physiologic example",c:[["Lymphoid tissue with age; thymus in adult life","Atrophy is a normal process of ageing in some tissues."],["Enlarged uterus in pregnancy","An example of physiologic hypertrophy as well as hyperplasia."],["Breast, pregnant uterus, endometrium, prostate","Hormonal: female breast at puberty, during pregnancy and lactation; pregnant uterus; normal endometrium after a menstrual cycle; prostate in old age."]]},
+ {l:"Pathologic example",c:[["Starvation, ischemic, disuse","Starvation atrophy; ischemic atrophy (small atrophic kidney in atherosclerosis of renal artery, atrophy of the brain in cerebral atherosclerosis); disuse atrophy (prolonged diminished functional activity)."],["Cardiac, smooth and skeletal muscle","Cardiac muscle in cardiovascular diseases; smooth muscle (cardiac achalasia, pyloric stenosis, intestinal strictures, muscular arteries in hypertension); skeletal muscle in athletes and manual laborers."],["Estrogen excess; wound healing","Endometrial hyperplasia following estrogen excess; granulation tissue in wound healing from proliferation of fibroblasts and endothelial cells."]]},
+ {l:"Compensatory example",c:[["Not given","The lecture gives no compensatory example of atrophy."],["Remaining kidney after nephrectomy","Following nephrectomy on one side in a young patient, compensatory hypertrophy as well as hyperplasia of the nephrons of the other kidney."],["Liver, epidermis, other kidney","Regeneration of the liver following partial hepatectomy; regeneration of epidermis after skin abrasion; hyperplasia of nephrons of the other kidney."]]}],
+ together:{l:"Hypertrophy and hyperplasia occur together",d:"Both hyperplasia and hypertrophy occur together. Examples: the pregnant uterus (physiologic hypertrophy as well as hyperplasia) and the remaining kidney after nephrectomy in a young patient (compensatory hypertrophy as well as hyperplasia of nephrons)."}};
+
+var dgList=[];
+function dgEsc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+function dgCard(def,idx){
+ var host=document.getElementById("diagHost"),card=document.createElement("div");
+ card.className="diagram-card";card.id="dg-"+def.id;
+ card.innerHTML='<div class="diagram-head"><h3>'+("0"+(idx+1)).slice(-2)+' · '+dgEsc(def.title)+'</h3><span class="tag">'+dgEsc(def.type)+'</span></div><div class="diagram-body"><p class="dg-purpose">'+dgEsc(def.purpose)+'</p><div class="dg-bar"></div><div class="dg-scroll"></div><div class="dg-legend"></div><div class="caption-box dg-cap">Tap an item to read its details.</div><p class="hint">Source: '+dgEsc(def.src)+'</p></div>';
+ host.appendChild(card);
+ return {card:card,bar:card.querySelector('.dg-bar'),scroll:card.querySelector('.dg-scroll'),legend:card.querySelector('.dg-legend'),cap:card.querySelector('.dg-cap')};
+}
+function dgBtn(bar,txt,fn){var b=document.createElement('button');b.type='button';b.className='dg-btn';b.textContent=txt;b.addEventListener('click',fn);bar.appendChild(b);return b;}
+
+function dgBuild(def,idx){
+ var P=dgCard(def,idx),D={def:def,P:P,el:{},rels:[],node:{},collapsed:{},sel:null,z:1,user:false,dragged:false};
+ var sizer=document.createElement('div');sizer.className='dg-sizer';
+ var st=document.createElement('div');st.className='dg-stage';st.style.setProperty('--cols',def.cols);
+ var svg=document.createElementNS('http://www.w3.org/2000/svg','svg');svg.setAttribute('class','dg-edges');
+ st.appendChild(svg);sizer.appendChild(st);P.scroll.appendChild(sizer);
+ D.sizer=sizer;D.stage=st;D.svg=svg;
+ var used={};
+ def.nodes.forEach(function(n){
+  D.node[n.id]=n;used[n.k]=1;
+  var e=document.createElement('div');e.className='dg-node k-'+n.k;e.tabIndex=0;e.setAttribute('role','button');
+  e.style.gridRow=(n.r+1);e.style.gridColumn=(n.c+1)+' / span '+(n.cs||1);
+  if(n.d)e.title=n.d;
+  var h=(n.n?'<span class="nn">'+n.n+'</span>':'')+'<span class="nl">'+dgEsc(n.l)+'</span>'+(n.s?'<span class="ns">'+dgEsc(n.s)+'</span>':'');
+  if(n.ex)h+='<ul class="ne">'+n.ex.map(function(x){return '<li>'+dgEsc(x)+'</li>';}).join('')+'</ul>';
+  e.innerHTML=h;
+  var kids=def.connections.some(function(c){return c.source===n.id;});
+  if(def.fold&&kids){
+   var f=document.createElement('button');f.type='button';f.className='dg-fold';f.textContent='−';f.setAttribute('aria-label','Collapse branch');
+   f.addEventListener('click',function(ev){ev.stopPropagation();D.collapsed[n.id]=!D.collapsed[n.id];f.textContent=D.collapsed[n.id]?'+':'−';dgHidden(D);dgDraw(D);});
+   e.appendChild(f);e.classList.add('has-fold');n._fold=f;
+  }
+  e.addEventListener('click',function(){if(D.dragged){D.dragged=false;return;}dgSelect(D,n.id);});
+  e.addEventListener('keydown',function(ev){if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();dgSelect(D,n.id);}});
+  st.appendChild(e);D.el[n.id]=e;
+ });
+ def.connections.forEach(function(c){
+  var l=document.createElement('div');l.className='dg-rel';l.textContent=c.relationship||'';st.appendChild(l);D.rels.push(l);
+ });
+ st.addEventListener('click',function(ev){if(ev.target===st||ev.target===svg)dgSelect(D,null);});
+ Object.keys(DG_KINDS).forEach(function(k){if(used[k])P.legend.insertAdjacentHTML('beforeend','<span><i class="sw k-'+k+'"></i>'+DG_KINDS[k]+'</span>');});
+ dgBtn(P.bar,'−',function(){D.user=true;dgZoom(D,D.z/1.2);});
+ D.zl=document.createElement('span');D.zl.className='dg-zoomval';P.bar.appendChild(D.zl);
+ dgBtn(P.bar,'+',function(){D.user=true;dgZoom(D,D.z*1.2);});
+ dgBtn(P.bar,'Reset view',function(){D.collapsed={};def.nodes.forEach(function(n){if(n._fold)n._fold.textContent='−';});D.user=false;dgSelect(D,null);dgHidden(D);dgFit(D);P.scroll.scrollLeft=0;});
+ if(def.fold){
+  dgBtn(P.bar,'Collapse all',function(){D.collapsed={};D.collapsed[def.nodes[0].id]=true;def.nodes.forEach(function(n){if(n._fold)n._fold.textContent=D.collapsed[n.id]?'+':'−';});dgSelect(D,null);dgHidden(D);dgDraw(D);});
+  dgBtn(P.bar,'Expand all',function(){D.collapsed={};def.nodes.forEach(function(n){if(n._fold)n._fold.textContent='−';});dgHidden(D);dgDraw(D);});
+ }
+ P.bar.insertAdjacentHTML('beforeend','<span class="dg-hint">Tap a node for details · scroll sideways to pan</span>');
+ var down=null;
+ P.scroll.addEventListener('pointerdown',function(ev){if(ev.pointerType==='mouse'&&ev.button===0)down={x:ev.clientX,sl:P.scroll.scrollLeft,m:false};});
+ window.addEventListener('pointermove',function(ev){if(!down)return;var dx=ev.clientX-down.x;if(Math.abs(dx)>5){down.m=true;P.scroll.classList.add('grab');}if(down.m)P.scroll.scrollLeft=down.sl-dx;});
+ window.addEventListener('pointerup',function(){if(down&&down.m)D.dragged=true;down=null;P.scroll.classList.remove('grab');setTimeout(function(){D.dragged=false;},0);});
+ dgList.push(D);
+}
+function dgHidden(D){
+ var hid={};
+ Object.keys(D.collapsed).forEach(function(id){
+  if(!D.collapsed[id])return;
+  var q=[id];
+  while(q.length){var x=q.shift();D.def.connections.forEach(function(c){if(c.source===x&&!hid[c.target]){hid[c.target]=1;q.push(c.target);}});}
+ });
+ D.def.nodes.forEach(function(n){D.el[n.id].style.display=hid[n.id]?'none':'';});
+ if(D.sel&&hid[D.sel])dgSelect(D,null);
+}
+function dgFit(D){
+ if(!D.P.scroll.clientWidth)return;
+ var f=Math.max(.6,Math.min(1,(D.P.scroll.clientWidth-2)/D.stage.offsetWidth));
+ dgZoom(D,f);
+}
+function dgZoom(D,z){
+ if(!D.stage.offsetWidth)return;
+ z=Math.max(.4,Math.min(2,z));D.z=z;
+ D.stage.style.transform='scale('+z+')';
+ D.sizer.style.width=(D.stage.offsetWidth*z)+'px';
+ D.sizer.style.height=((D.stage.offsetHeight-40)*z)+'px';
+ D.zl.textContent=Math.round(z*100)+'%';
+}
+function dgBez(p,t){var u=1-t;return [u*u*u*p[0][0]+3*u*u*t*p[1][0]+3*u*t*t*p[2][0]+t*t*t*p[3][0],u*u*u*p[0][1]+3*u*u*t*p[1][1]+3*u*t*t*p[2][1]+t*t*t*p[3][1]];}
+function dgDraw(D){
+ var st=D.stage;if(!st.offsetWidth)return;
+ D.svg.setAttribute('width',st.offsetWidth);D.svg.setAttribute('height',st.offsetHeight);
+ var id=D.def.id;
+ var out='<defs><marker id="a'+id+'" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="9" orient="auto"><path d="M0 0L10 5L0 10z" fill="#9DB0AA" stroke="none"/></marker><marker id="h'+id+'" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" orient="auto"><path d="M0 0L10 5L0 10z" fill="#144A50" stroke="none"/></marker></defs>';
+ D.def.connections.forEach(function(c,i){
+  var a=D.el[c.source],b=D.el[c.target],lab=D.rels[i];
+  if(a.style.display==='none'||b.style.display==='none'){lab.style.display='none';return;}
+  var ax=a.offsetLeft,ay=a.offsetTop,aw=a.offsetWidth,ah=a.offsetHeight,bx=b.offsetLeft,by=b.offsetTop,bw=b.offsetWidth,bh=b.offsetHeight,p;
+  if(by>=ay+ah-2){var x1=ax+aw/2,y1=ay+ah,x2=bx+bw/2,y2=by,m=(y2-y1)/2;p=[[x1,y1],[x1,y1+m],[x2,y2-m],[x2,y2]];}
+  else if(by+bh<=ay+2){var x1=ax+aw/2,y1=ay,x2=bx+bw/2,y2=by+bh,m=(y1-y2)/2;p=[[x1,y1],[x1,y1-m],[x2,y2+m],[x2,y2]];}
+  else{var x1=bx>ax?ax+aw:ax,x2=bx>ax?bx:bx+bw,y1=ay+ah/2,y2=by+bh/2,m=(x2-x1)/2;p=[[x1,y1],[x1+m,y1],[x2-m,y2],[x2,y2]];}
+  var hl=D.sel&&(c.source===D.sel||c.target===D.sel);
+  out+='<path class="'+(hl?'hl':'')+'" d="M'+p[0]+' C'+p[1]+' '+p[2]+' '+p[3]+'" marker-end="url(#'+(hl?'h':'a')+id+')"/>';
+  var q=dgBez(p,c.lt||.5);
+  lab.style.left=q[0]+'px';lab.style.top=q[1]+'px';
+  lab.style.display=(c.relationship&&(D.def.rel||hl))?'block':'none';
+  lab.classList.toggle('hl',!!hl);
+ });
+ D.svg.innerHTML=out;
+}
+function dgSelect(D,id){
+ if(id&&D.sel===id)id=null;
+ D.sel=id;
+ var nb={};
+ D.def.connections.forEach(function(c){if(c.source===id)nb[c.target]=1;if(c.target===id)nb[c.source]=1;});
+ D.def.nodes.forEach(function(n){var e=D.el[n.id];e.classList.toggle('sel',n.id===id);e.classList.toggle('nb',!!nb[n.id]);});
+ D.stage.classList.toggle('has-sel',!!id);
+ dgDraw(D);
+ if(!id){D.P.cap.innerHTML='Tap a node to read its details and highlight its connections.';return;}
+ var n=D.node[id],h='<span class="cap-title">'+dgEsc(n.l)+(n.s?' <span class="cap-sub">— '+dgEsc(n.s)+'</span>':'')+'</span>';
+ if(n.d)h+='<p>'+dgEsc(n.d)+'</p>';
+ if(n.p)h+='<ul>'+n.p.map(function(x){return '<li>'+dgEsc(x)+'</li>';}).join('')+'</ul>';
+ if(n.ex)h+='<ul>'+n.ex.map(function(x){return '<li>'+dgEsc(x)+'</li>';}).join('')+'</ul>';
+ var rel='';
+ D.def.connections.forEach(function(c){
+  if(c.target===id)rel+='<div>← '+dgEsc(D.node[c.source].l)+(c.relationship?'<i>'+dgEsc(c.relationship)+'</i>':'')+'</div>';
+  if(c.source===id)rel+='<div>→ '+dgEsc(D.node[c.target].l)+(c.relationship?'<i>'+dgEsc(c.relationship)+'</i>':'')+'</div>';
+ });
+ if(rel)h+='<div class="cap-rel">'+rel+'</div>';
+ D.P.cap.innerHTML=h;
+}
+function dgCompare(def,idx){
+ var P=dgCard(def,idx),sel=null;
+ var h='<table class="dg-cmp"><thead><tr><th></th>'+def.cols.map(function(c,i){return '<th data-c="'+i+'">'+dgEsc(c.l)+'</th>';}).join('')+'</tr></thead><tbody>';
+ def.rows.forEach(function(r,ri){h+='<tr><th data-r="'+ri+'">'+dgEsc(r.l)+'</th>'+r.c.map(function(x,ci){return '<td data-r="'+ri+'" data-c="'+ci+'"><b>'+dgEsc(x[0])+'</b></td>';}).join('')+'</tr>';});
+ h+='</tbody></table>';
+ P.scroll.innerHTML=h;
+ P.scroll.insertAdjacentHTML('afterend','<div class="dg-together" tabindex="0" role="button"><b>'+dgEsc(def.together.l)+'</b>Tap for the lecture examples.</div>');
+ var tb=P.scroll.querySelector('table'),tog=P.card.querySelector('.dg-together');
+ function mark(r,c,exact){tb.querySelectorAll('td').forEach(function(td){var tr=+td.dataset.r,tc=+td.dataset.c;td.classList.toggle('hl',(r!==null&&tr===r)||(c!==null&&tc===c));td.classList.toggle('sel',exact&&tr===r&&tc===c);});tb.querySelectorAll('thead th[data-c]').forEach(function(t){t.classList.toggle('hl',c!==null&&+t.dataset.c===c);});}
+ tb.addEventListener('click',function(ev){
+  var t=ev.target.closest('td,th');if(!t)return;
+  if(t.tagName==='TD'){var r=+t.dataset.r,c=+t.dataset.c;mark(r,c,true);P.cap.innerHTML='<span class="cap-title">'+dgEsc(def.cols[c].l)+' · '+dgEsc(def.rows[r].l)+'</span><p>'+dgEsc(def.rows[r].c[c][1])+'</p>';}
+  else if(t.dataset.c!==undefined){var c2=+t.dataset.c;mark(null,c2,false);P.cap.innerHTML='<span class="cap-title">'+dgEsc(def.cols[c2].l)+'</span><p>'+dgEsc(def.cols[c2].d)+'</p>';}
+  else if(t.dataset.r!==undefined){var r2=+t.dataset.r;mark(r2,null,false);P.cap.innerHTML='<span class="cap-title">'+dgEsc(def.rows[r2].l)+'</span><ul>'+def.rows[r2].c.map(function(x,i){return '<li><b>'+dgEsc(def.cols[i].l)+':</b> '+dgEsc(x[0])+'</li>';}).join('')+'</ul>';}
+ });
+ tog.addEventListener('click',function(){mark(null,null,false);P.cap.innerHTML='<span class="cap-title">'+dgEsc(def.together.l)+'</span><p>'+dgEsc(def.together.d)+'</p>';});
+ dgBtn(P.bar,'Reset view',function(){mark(null,null,false);P.cap.innerHTML='Tap an item to read its details.';});
+ P.bar.insertAdjacentHTML('beforeend','<span class="dg-hint">Tap a cell, row or column heading</span>');
+ P.legend.innerHTML='<span>Rows are the points of comparison; columns are the three adaptations.</span>';
+}
+DIAGRAMS.forEach(dgBuild);
+dgCompare(DG_CMP,DIAGRAMS.length);
+(function(){
+ var jump=document.getElementById('dgJump'),all=DIAGRAMS.concat([DG_CMP]);
+ all.forEach(function(d,i){var b=document.createElement('button');b.type='button';b.innerHTML='<b>'+("0"+(i+1)).slice(-2)+'</b>'+dgEsc(d.title);b.addEventListener('click',function(){document.getElementById('dg-'+d.id).scrollIntoView({behavior:'smooth',block:'start'});});jump.appendChild(b);});
+})();
+function dgLayoutAll(){dgList.forEach(function(D){if(!D.user)dgFit(D);else dgZoom(D,D.z);dgDraw(D);});}
+window.addEventListener('resize',dgLayoutAll);
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(dgLayoutAll);
+
 
 /* Mini map */
-var mmTopics=[
-{title:"Homeostasis &amp; adaptation",body:"<p><b>Homeostasis</b>: steady state with intracellular milieu in a narrow physiologic range. Cells can <b>adapt</b> to a new steady state, preserving viability and function.</p>"},
-{title:"Cell injury &amp; fate",body:"<p><b>Cell injury</b> → effect of stresses from etiologic agents; depends on host factors and the injurious agent.</p><ul><li>Altered functional demand → Adaptations → normal cell restored</li><li>Mild–moderate stress → Reversible injury (degenerations, subcellular alterations, intracellular accumulations) → repair and healing</li><li>Severe, persistent stress → Irreversible injury → cell death</li></ul>"},
-{title:"Adaptations",body:"<p>Reversible changes in number, size, phenotype, metabolic activity or function.</p><ul><li>Physiologic — hormones/mediators</li><li>Pathologic — escape injury</li><li>Atrophy · Hypertrophy · Hyperplasia · Metaplasia · Dysplasia</li></ul>"},
-{title:"Atrophy",body:"<p>Reduced number and size of parenchymal cells.</p><ul><li>Physiologic: ageing (lymphoid tissue, thymus)</li><li>Pathologic: starvation · ischemic (renal artery, cerebral atherosclerosis) · disuse</li></ul>"},
-{title:"Hypertrophy",body:"<p>Increased cell size, same number. Caused by increased functional demand or hormonal stimulation.</p><ul><li>Physiologic: pregnant uterus</li><li>Pathologic: cardiac muscle; smooth muscle (cardiac achalasia, pyloric stenosis, intestinal strictures, arteries in hypertension); skeletal muscle (athletes, manual laborers)</li><li>Compensatory: after nephrectomy</li></ul>"},
-{title:"Hyperplasia",body:"<p>Increased cell number; G0 cells recruited into mitosis; increased DNA synthesis.</p><ul><li>Hormonal: breast, uterus, endometrium, prostate</li><li>Compensatory: liver, epidermis, nephrons</li><li>Pathologic: estrogen excess endometrium; granulation tissue</li></ul>"},
-{title:"Cell types",body:"<ul><li><b>Labile</b> — skin/mucosal epithelium, bone marrow, lymph nodes</li><li><b>Stable</b> — liver, pancreas, kidney, adrenal, thyroid parenchyma</li><li><b>Permanent</b> — neurons, cardiac and skeletal muscle (little/no hyperplasia)</li></ul>"}
-];
+var mmData={"title":"Cell Injury, Cell Death & Adaptation","children":[{"title":"Homeostasis","relation":"contains","children":[{"title":"Steady state maintained by cells"},{"title":"Intracellular milieu kept within narrow physiologic range"},{"title":"Adaptation","relation":"leads to","children":[{"title":"New steady state"},{"title":"Viability & function preserved"}]}]},{"title":"Cell Injury","relation":"contains","children":[{"title":"Definition","children":[{"title":"Effect of stresses from etiologic agents"},{"title":"Changes the cell's internal & external environment"}]},{"title":"Determined by","relation":"depends on","children":[{"title":"Host factors","note":"Type of cell & tissue involved"},{"title":"Injurious agent factors","note":"Extent & type of cell injury"}]}]},{"title":"Fate of the Normal Cell","relation":"divided into","note":"Flow chart: depends on type of stress","children":[{"title":"Altered functional demand","relation":"leads to","children":[{"title":"Adaptations","note":"Atrophy · Hypertrophy · Hyperplasia · Metaplasia · Dysplasia"},{"title":"Stress removed","relation":"followed by","note":"Normal cell restored"}]},{"title":"Mild to moderate stress","relation":"leads to","children":[{"title":"Reversible cell injury","note":"Degenerations · Subcellular alterations · Intracellular accumulations"},{"title":"Stress removed","relation":"followed by","note":"Repair and healing"}]},{"title":"Severe, persistent stress","relation":"leads to","children":[{"title":"Irreversible cell injury"},{"title":"Cell death","relation":"followed by"}]}]},{"title":"Adaptations","relation":"classified into","children":[{"title":"Definition","children":[{"title":"Reversible changes in number, size, phenotype, metabolic activity or function"},{"title":"Response to changes in the cell's environment"}]},{"title":"Types","relation":"divided into","children":[{"title":"Physiologic","note":"Response to normal stimulation by hormones / endogenous chemical mediators · e.g. breast & uterus enlargement in pregnancy"},{"title":"Pathologic","note":"Response to stress; cells modulate structure & function and escape injury"}]},{"title":"Forms","relation":"includes","note":"Figure: normal bronchial epithelial cell → A–E","children":[{"title":"Atrophy"},{"title":"Hypertrophy"},{"title":"Hyperplasia"},{"title":"Metaplasia"},{"title":"Dysplasia"}]}]},{"title":"Atrophy","relation":"example of","note":"Adaptation","children":[{"title":"Definition","children":[{"title":"Reduced number & size of parenchymal cells"},{"title":"Organ or its parts, once normal"}]},{"title":"Physiologic atrophy","relation":"caused by","children":[{"title":"Normal process of ageing in some tissues"},{"title":"Loss of endocrine stimulation"},{"title":"Arteriosclerosis"},{"title":"Examples","note":"Lymphoid tissue with age · Thymus in adult life"}]},{"title":"Pathologic atrophy","relation":"caused by","children":[{"title":"Starvation atrophy"},{"title":"Ischemic atrophy","note":"Small kidney in renal artery atherosclerosis · Brain in cerebral atherosclerosis"},{"title":"Disuse atrophy","note":"Prolonged diminished functional activity · example shown as clinical image"}]}]},{"title":"Hypertrophy","relation":"example of","note":"Adaptation","children":[{"title":"Definition","children":[{"title":"Increased size of parenchymal cells"},{"title":"Organ / tissue enlarges"},{"title":"No change in cell number"}]},{"title":"Causes","relation":"caused by","children":[{"title":"Increased functional demand"},{"title":"Hormonal stimulation"}]},{"title":"Physiologic hypertrophy","note":"Enlarged uterus in pregnancy (also hyperplasia)"},{"title":"Pathologic hypertrophy","relation":"divided into","children":[{"title":"Cardiac muscle","note":"Occurs in a number of cardiovascular diseases"},{"title":"Smooth muscle","note":"Cardiac achalasia (esophagus) · Pyloric stenosis (stomach) · Intestinal strictures · Muscular arteries in hypertension"},{"title":"Skeletal muscle","note":"Athletes & manual laborers"},{"title":"Compensatory hypertrophy","note":"Contralateral organ removed · after nephrectomy in a young patient: hypertrophy + hyperplasia of nephrons of other kidney"}]}]},{"title":"Hyperplasia","relation":"example of","note":"Adaptation","children":[{"title":"Definition","children":[{"title":"Increased number of parenchymal cells"},{"title":"Organ / tissue enlarges"}]},{"title":"Relation to hypertrophy","relation":"associated with","note":"Both occur together"},{"title":"Mechanism","children":[{"title":"G0 (resting) cells recruited into mitosis"},{"title":"Occurs when stimulated"},{"title":"Not all body cells have hyperplastic potential"}]},{"title":"Cell types & capacity","relation":"classified into","children":[{"title":"Labile cells","note":"Can undergo hyperplasia · Skin & mucous membrane epithelium, bone marrow, lymph nodes"},{"title":"Stable cells","note":"Can undergo hyperplasia · Parenchyma of liver, pancreas, kidney, adrenal, thyroid"},{"title":"Permanent cells","note":"Little or no regenerative hyperplastic growth · Neurons, cardiac & skeletal muscle"}]},{"title":"Physiologic hyperplasia","relation":"divided into","note":"Two most common types","children":[{"title":"Hormonal","note":"Breast (puberty, pregnancy, lactation) · Pregnant uterus · Endometrium after normal menstrual cycle · Prostate in old age"},{"title":"Compensatory","note":"After removal of part of an organ or the contralateral paired organ · Liver after partial hepatectomy · Epidermis after skin abrasion · Nephrons after nephrectomy"}]},{"title":"Pathologic hyperplasia","relation":"caused by","children":[{"title":"Excessive hormones / growth factors","note":"Endometrial hyperplasia after estrogen excess"},{"title":"Wound healing","note":"Granulation tissue from proliferation of fibroblasts & endothelial cells"}]},{"title":"Morphologic features","children":[{"title":"Enlarged organ / tissue"},{"title":"Increased cell number"},{"title":"Increased DNA synthesis","relation":"leads to","note":"Increased mitoses"},{"title":"Image example","note":"Gingival hyperplasia"}]}]}]};
 
 var levelLabels={1:"Level 1 · Easy",2:"Level 2 · Medium",3:"Level 3 · Hard"};
 var quizBank={
 1:[
-{q:"Cells normally maintain a steady state called:",c:"Homeostasis",w:["Adaptation","Hyperplasia","Metaplasia"]},
-{q:"Adaptations are best defined as:",c:"Reversible changes in number, size, phenotype, metabolic activity, or function in response to environmental change",w:["Irreversible changes leading to cell death","Changes only in the number of cells","Accumulations inside the cell"]},
-{q:"Which of the following is listed as an adaptation?",c:"Metaplasia",w:["Cell death","Repair and healing","Intracellular accumulation"]},
-{q:"Atrophy is a reduction in:",c:"The number and size of parenchymal cells of an organ once normal",w:["The size of cells only, with increased number","The number of cells only","Nothing; it is cell death"]},
-{q:"Hypertrophy is:",c:"An increase in the size of parenchymal cells without a change in cell number",w:["An increase in the number of parenchymal cells","A reduction in cell size","A change of one cell type to another"]},
-{q:"Hyperplasia is:",c:"An increase in the number of parenchymal cells",w:["An increase in cell size only","A reduction in cell number","A loss of endocrine stimulation"]},
-{q:"Atrophy of the thymus in adult life is an example of:",c:"Physiologic atrophy",w:["Ischemic atrophy","Disuse atrophy","Starvation atrophy"]},
-{q:"A small atrophic kidney in atherosclerosis of the renal artery is:",c:"Ischemic atrophy",w:["Physiologic atrophy","Disuse atrophy","Starvation atrophy"]},
-{q:"According to the flow chart, severe, persistent stress leads to:",c:"Irreversible cell injury",w:["Adaptations","Reversible cell injury","Normal cell restored"]},
-{q:"According to the flow chart, mild to moderate stress leads to:",c:"Reversible cell injury",w:["Irreversible cell injury","Adaptations","Cell death"]},
-{q:"Altered functional demand leads to:",c:"Adaptations",w:["Irreversible cell injury","Reversible cell injury","Cell death"]},
-{q:"Adaptations are divided into:",c:"Physiologic and pathologic",w:["Acute and chronic","Labile and stable","Hormonal and compensatory"]},
-{q:"Hormone-induced enlargement of the breast and uterus in pregnancy is a:",c:"Physiologic adaptation",w:["Pathologic adaptation","Irreversible injury","Disuse atrophy"]},
-{q:"Hypertrophied muscles in athletes and manual laborers are an example of hypertrophy of:",c:"Skeletal muscle",w:["Cardiac muscle","Smooth muscle","Nephrons"]},
-{q:"Pyloric stenosis in the stomach is an example of hypertrophy of:",c:"Smooth muscle",w:["Skeletal muscle","Cardiac muscle","Epithelium"]},
-{q:"Hyperplasia occurs due to recruitment of cells from which phase of the cell cycle?",c:"G0 (resting) phase",w:["S phase","G2 phase","M phase"]},
-{q:"Which is an example of labile cells?",c:"Epithelial cells of the skin",w:["Neurons","Cardiac muscle cells","Skeletal muscle cells"]},
-{q:"Which is an example of stable cells?",c:"Parenchymal cells of the liver",w:["Bone marrow cells","Neurons","Epithelial cells of mucous membranes"]},
-{q:"Which is an example of permanent cells?",c:"Neurons",w:["Thyroid parenchymal cells","Bone marrow cells","Liver parenchymal cells"]},
-{q:"Prostatic hyperplasia in old age is an example of:",c:"Hormonal hyperplasia",w:["Compensatory hyperplasia","Pathologic hyperplasia","Disuse atrophy"]},
-{q:"Regeneration of the liver following partial hepatectomy is:",c:"Compensatory hyperplasia",w:["Hormonal hyperplasia","Pathologic hyperplasia","Compensatory atrophy"]},
-{q:"Endometrial hyperplasia following estrogen excess is:",c:"Pathologic hyperplasia",w:["Hormonal physiologic hyperplasia","Compensatory hyperplasia","Ischemic atrophy"]},
-{q:"Granulation tissue in wound healing forms due to proliferation of:",c:"Fibroblasts and endothelial cells",w:["Neurons and muscle cells","Epithelial cells only","Lymphoid cells"]},
-{q:"Cell injury depends on host factors, namely:",c:"The type of cell and tissue involved",w:["The extent of the injurious agent","The type of injurious agent","The number of mitoses"]},
-{q:"Morphologically, hyperplasia is due to increased:",c:"DNA synthesis and mitoses",w:["Cell size only","Cell death","Endocrine stimulation loss"]}
+{"q": "What is the term for the steady state in which the intracellular milieu is kept within a fairly narrow range of physiologic conditions?", "c": "Homeostasis", "w": ["Adaptation", "Atrophy", "Dysplasia"], "p": "C", "e": "Cells normally maintain a steady state called homeostasis; if stressed they adapt and reach a new steady state."},
+{"q": "Cell injury is best defined as the effect of:", "c": "A variety of stresses due to etiologic agents that change the cell's internal and external environment", "w": ["Reversible changes in cell number, size, phenotype or function in response to environmental change", "An increase in the size of parenchymal cells without any change in their number", "A reduction in the number and size of parenchymal cells of a once-normal organ"], "p": "A", "e": "The lecture defines cell injury as the effect of stresses from etiologic agents resulting in changes in the cell's internal and external environment. The other options define adaptation, hypertrophy and atrophy."},
+{"q": "Which of the following is a host factor that determines the effect of cell injury?", "c": "The type of cell and tissue involved", "w": ["The extent of cell injury", "The type of cell injury", "The removal of the stress"], "p": "D", "e": "Host factors = type of cell and tissue involved. Extent and type of injury are factors pertaining to the injurious agent."},
+{"q": "According to the flow chart, a normal cell exposed to altered functional demand undergoes:", "c": "Adaptations", "w": ["Reversible cell injury", "Irreversible cell injury", "Cell death"], "p": "B", "e": "Altered functional demand leads to adaptations (atrophy, hypertrophy, hyperplasia, metaplasia, dysplasia)."},
+{"q": "Severe, persistent stress on a normal cell ultimately results in:", "c": "Irreversible cell injury leading to cell death", "w": ["Adaptations leading to restoration of the normal cell", "Reversible cell injury leading to repair and healing", "Degenerations that resolve once the stress is removed"], "p": "A", "e": "In the flow chart, severe persistent stress leads to irreversible cell injury and then cell death."},
+{"q": "Which of the following is listed under reversible cell injury in the flow chart?", "c": "Intracellular accumulations", "w": ["Atrophy", "Metaplasia", "Hyperplasia"], "p": "D", "e": "Reversible cell injury includes degenerations, subcellular alterations and intracellular accumulations. The others are adaptations."},
+{"q": "Adaptations are reversible changes in the number, size, phenotype, metabolic activity or function of cells in response to:", "c": "Changes in their environment", "w": ["Permanent loss of viability", "Increased DNA synthesis only", "Removal of the injurious agent"], "p": "C", "e": "This is the lecture's definition of adaptations."},
+{"q": "The figure of adaptive disorders of growth starts from which normal cell?", "c": "Normal bronchial epithelial cell", "w": ["Normal hepatocyte", "Normal neuron", "Normal skeletal muscle cell"], "p": "B", "e": "The figure shows a normal bronchial epithelial cell giving rise to atrophy, hypertrophy, hyperplasia, metaplasia and dysplasia."},
+{"q": "Hormone-induced enlargement of the breast and uterus during pregnancy is an example of:", "c": "Physiologic adaptation", "w": ["Pathologic adaptation", "Irreversible cell injury", "Disuse atrophy"], "p": "D", "e": "Physiologic adaptations are responses to normal stimulation by hormones or endogenous chemical mediators, e.g. breast and uterus in pregnancy."},
+{"q": "Atrophy is a reduction in:", "c": "Number and size of parenchymal cells of a once-normal organ", "w": ["Size of parenchymal cells with a rise in their number", "Number of cells with no change in cell size", "Metabolic activity of a once-normal organ"], "p": "A", "e": "Atrophy = reduction of the number and size of parenchymal cells of an organ or its parts which was once normal."},
+{"q": "Atrophy of the thymus in adult life is an example of:", "c": "Physiologic atrophy", "w": ["Ischemic atrophy", "Disuse atrophy", "Starvation atrophy"], "p": "C", "e": "Atrophy of lymphoid tissue with age and of the thymus in adult life are examples of physiologic atrophy (normal ageing)."},
+{"q": "Starvation atrophy is classified under:", "c": "Pathologic atrophy", "w": ["Physiologic atrophy", "Compensatory hyperplasia", "Hormonal hyperplasia"], "p": "B", "e": "Starvation, ischemic and disuse atrophy are the causes listed under pathologic atrophy."},
+{"q": "Hypertrophy is defined as an increase in:", "c": "The size of parenchymal cells without any change in cell number", "w": ["The number of parenchymal cells, enlarging the organ", "The recruitment of cells from the G0 phase", "The reduction of parenchymal cell size"], "p": "A", "e": "Hypertrophy enlarges the organ or tissue by increasing cell size, not cell number."},
+{"q": "Hypertrophy, whether physiologic or pathologic, is caused by:", "c": "Increased functional demand or hormonal stimulation", "w": ["Loss of endocrine stimulation", "Prolonged diminished functional activity", "Reduced blood supply from atherosclerosis"], "p": "D", "e": "The lecture states that in either case hypertrophy is caused by increased functional demand or by hormonal stimulation."},
+{"q": "Hypertrophied muscles in athletes and manual laborers are an example of hypertrophy of:", "c": "Skeletal muscle", "w": ["Cardiac muscle", "Smooth muscle", "Nephrons"], "p": "B", "e": "Listed under pathologic hypertrophy: skeletal muscle in athletes and manual laborers."},
+{"q": "Cardiac achalasia in the esophagus is an example of hypertrophy of:", "c": "Smooth muscle", "w": ["Skeletal muscle", "Cardiac muscle", "Epithelium"], "p": "C", "e": "Smooth muscle hypertrophy examples: cardiac achalasia, pyloric stenosis, intestinal strictures, muscular arteries in hypertension."},
+{"q": "Hyperplasia is defined as an increase in:", "c": "The number of parenchymal cells resulting in enlargement of the organ", "w": ["The size of parenchymal cells with no change in number", "The metabolic activity of cells with a decrease in number", "The phenotype of cells without enlargement of the organ"], "p": "A", "e": "Hyperplasia = increase in the number of parenchymal cells resulting in enlargement of the organ or tissue."},
+{"q": "Hyperplasia occurs due to increased recruitment of cells from which phase of the cell cycle?", "c": "G0 (resting) phase", "w": ["S phase", "G2 phase", "M phase"], "p": "D", "e": "Cells are recruited from the G0 (resting) phase to undergo mitosis when stimulated."},
+{"q": "Epithelial cells of the skin and mucous membranes are an example of which cell type?", "c": "Labile cells", "w": ["Stable cells", "Permanent cells", "Endocrine cells"], "p": "B", "e": "Labile cells include epithelial cells of skin and mucous membranes, bone marrow and lymph node cells."},
+{"q": "Which of the following is an example of permanent cells?", "c": "Neurons", "w": ["Bone marrow cells", "Liver parenchymal cells", "Epithelial cells of the skin"], "p": "C", "e": "Permanent cells: neurons, cardiac and skeletal muscle."},
+{"q": "Prostatic hyperplasia in old age is an example of:", "c": "Hormonal hyperplasia", "w": ["Compensatory hyperplasia", "Pathologic hyperplasia", "Compensatory hypertrophy"], "p": "D", "e": "Prostatic hyperplasia in old age is listed under hormonal (physiologic) hyperplasia."},
+{"q": "Regeneration of the epidermis after skin abrasion is an example of:", "c": "Compensatory hyperplasia", "w": ["Hormonal hyperplasia", "Pathologic hyperplasia", "Physiologic atrophy"], "p": "A", "e": "Compensatory hyperplasia occurs after removal of part of an organ; regeneration of epidermis after skin abrasion is an example."},
+{"q": "Granulation tissue in wound healing forms due to proliferation of:", "c": "Fibroblasts and endothelial cells", "w": ["Neurons and cardiac muscle cells", "Hepatocytes and nephrons", "Neurons and skeletal muscle cells"], "p": "C", "e": "In wound healing, granulation tissue forms through proliferation of fibroblasts and endothelial cells (pathologic hyperplasia)."},
+{"q": "Which condition is shown in the lecture's clinical image under the morphologic features of hyperplasia?", "c": "Gingival hyperplasia", "w": ["Disuse atrophy of the leg", "Prostatic hyperplasia", "Ischemic atrophy of the kidney"], "p": "B", "e": "The image under morphologic features is captioned gingival hyperplasia."},
+{"q": "Most examples of pathologic hyperplasia are due to excessive stimulation by:", "c": "Hormones or growth factors", "w": ["Loss of endocrine stimulation", "Prolonged diminished functional activity", "Starvation"], "p": "A", "e": "e.g. endometrial hyperplasia following estrogen excess."}
 ],
 2:[
-{q:"Which statement correctly distinguishes hypertrophy from hyperplasia?",c:"Hypertrophy increases cell size without changing number; hyperplasia increases cell number",w:["Hypertrophy increases cell number; hyperplasia increases cell size","Both reduce cell number","Both occur only in permanent cells"]},
-{q:"Which example shows both physiologic hypertrophy and hyperplasia?",c:"Enlarged uterus in pregnancy",w:["Small kidney in renal artery atherosclerosis","Thymic atrophy in adults","Disuse of a limb"]},
-{q:"Hypertrophy, physiologic or pathologic, is caused by:",c:"Increased functional demand or hormonal stimulation",w:["Loss of endocrine stimulation","Prolonged diminished functional activity","Starvation"]},
-{q:"Which cell groups can undergo hyperplasia?",c:"Labile and stable cells",w:["Stable and permanent cells","Labile and permanent cells","Permanent cells only"]},
-{q:"Hypertrophy of muscular arteries is described in:",c:"Hypertension",w:["Cerebral atherosclerosis","Starvation","Pregnancy"]},
-{q:"How do physiologic and pathologic adaptations differ?",c:"Physiologic ones respond to normal hormonal or mediator stimulation; pathologic ones are stress responses that help cells escape injury",w:["Physiologic ones cause cell death; pathologic ones do not","Physiologic ones are irreversible; pathologic ones are reversible","They differ only in the organ involved"]},
-{q:"Physiologic atrophy in ageing could be due to:",c:"Loss of endocrine stimulation or arteriosclerosis",w:["Prolonged diminished functional activity","Starvation","Excess estrogen"]},
-{q:"Disuse atrophy results from:",c:"Prolonged diminished functional activity",w:["Atherosclerosis of the renal artery","Increased functional demand","Excess growth factors"]},
-{q:"Reversible cell injury includes:",c:"Degenerations, subcellular alterations, and intracellular accumulations",w:["Atrophy, hypertrophy, and hyperplasia","Cell death and repair","Normal cell restoration"]},
-{q:"After the stress is removed, adaptations and reversible injury lead respectively to:",c:"Normal cell restored; repair and healing",w:["Repair and healing; normal cell restored","Cell death; repair and healing","Normal cell restored; cell death"]},
-{q:"After unilateral nephrectomy in a young patient, the other kidney shows:",c:"Compensatory hypertrophy and hyperplasia of nephrons",w:["Ischemic atrophy","Disuse atrophy","Cell death of nephrons"]},
-{q:"Compensatory hyperplasia occurs:",c:"After removal of part of an organ or in the contralateral organ of a paired organ",w:["Only under puberty hormones","Only in permanent cells","Only with estrogen excess"]},
-{q:"Why do neurons show little hyperplasia?",c:"They are permanent cells with little or no regenerative hyperplastic capacity",w:["They are labile cells","They are stable cells","They are always in mitosis"]},
-{q:"The two most common types of physiologic hyperplasia are:",c:"Hormonal and compensatory",w:["Ischemic and disuse","Labile and stable","Starvation and compensatory"]},
-{q:"Cell injury outcome is determined by factors pertaining to:",c:"The host and the injurious agent",w:["Only the host","Only the injurious agent","Only the cell cycle phase"]}
+{"q": "Which statement correctly distinguishes hypertrophy from hyperplasia?", "c": "Hypertrophy enlarges an organ by increasing cell size; hyperplasia does so by increasing cell number", "w": ["Hypertrophy enlarges an organ by increasing cell number; hyperplasia does so by increasing cell size", "Both enlarge an organ through recruitment of cells from the G0 phase", "Hypertrophy occurs only in labile cells; hyperplasia only in permanent cells"], "p": "B", "e": "Hypertrophy = bigger cells, no change in number. Hyperplasia = more cells via G0 recruitment and mitosis."},
+{"q": "After the stress is removed, which outcome follows adaptations and which follows reversible cell injury, respectively?", "c": "Normal cell restored; repair and healing", "w": ["Repair and healing; normal cell restored", "Cell death; repair and healing", "Normal cell restored; cell death"], "p": "D", "e": "Flow chart: adaptations → stress removed → normal cell restored; reversible injury → stress removed → repair and healing."},
+{"q": "After unilateral nephrectomy in a young patient, the remaining kidney shows:", "c": "Compensatory hypertrophy and hyperplasia of nephrons", "w": ["Ischemic atrophy of nephrons", "Disuse atrophy of nephrons", "Cell death of nephrons"], "p": "A", "e": "The lecture describes compensatory hypertrophy as well as hyperplasia of the nephrons of the other kidney."},
+{"q": "Which two cell groups can undergo hyperplasia?", "c": "Labile and stable cells", "w": ["Stable and permanent cells", "Labile and permanent cells", "Permanent cells only"], "p": "C", "e": "Labile and stable cells can undergo hyperplasia; permanent cells have little or no capacity for regenerative hyperplastic growth."},
+{"q": "Physiologic atrophy in ageing could be due to:", "c": "Loss of endocrine stimulation or arteriosclerosis", "w": ["Prolonged diminished functional activity", "Starvation", "Excessive stimulation by growth factors"], "p": "C", "e": "The lecture states ageing atrophy could be due to loss of endocrine stimulation or arteriosclerosis."},
+{"q": "Disuse atrophy results from:", "c": "Prolonged diminished functional activity of the organ", "w": ["Reduced blood supply from atherosclerosis", "Loss of endocrine stimulation in ageing", "Starvation"], "p": "A", "e": "Prolonged diminished functional activity is associated with disuse atrophy."},
+{"q": "Hypertrophy of muscular arteries is described in which condition?", "c": "Hypertension", "w": ["Cerebral atherosclerosis", "Cardiac achalasia", "Starvation"], "p": "D", "e": "Muscular arteries in hypertension are listed under smooth muscle hypertrophy."},
+{"q": "Reversible cell injury in the flow chart includes:", "c": "Degenerations, subcellular alterations and intracellular accumulations", "w": ["Atrophy, hypertrophy, hyperplasia, metaplasia and dysplasia", "Normal cell restored, repair and healing, and cell death", "Physiologic and pathologic adaptations"], "p": "B", "e": "The second option lists adaptations; the others are outcomes or types of adaptation."},
+{"q": "How do physiologic and pathologic adaptations differ?", "c": "Physiologic respond to normal hormonal or mediator stimulation; pathologic are stress responses that let cells escape injury", "w": ["Physiologic lead to cell death; pathologic restore the normal cell", "Physiologic are irreversible changes; pathologic are reversible changes", "Physiologic occur only in labile cells; pathologic only in permanent cells"], "p": "A", "e": "Physiologic = normal stimulation by hormones/endogenous mediators. Pathologic = responses to stress that modulate structure and function and escape injury."},
+{"q": "Why do neurons show little or no hyperplasia?", "c": "They are permanent cells with little or no regenerative hyperplastic capacity", "w": ["They are labile cells whose mitoses are suppressed", "They are stable cells that remain permanently in G0", "They lack any form of hormonal stimulation"], "p": "D", "e": "Neurons, cardiac and skeletal muscle are permanent cells."},
+{"q": "Breast enlargement at puberty and regeneration of the liver after partial hepatectomy represent, respectively:", "c": "Hormonal and compensatory hyperplasia", "w": ["Compensatory and hormonal hyperplasia", "Pathologic and compensatory hyperplasia", "Hormonal hyperplasia and compensatory hypertrophy"], "p": "C", "e": "Breast hyperplasia at puberty is hormonal; liver regeneration after partial hepatectomy is compensatory."},
+{"q": "Compensatory hyperplasia occurs:", "c": "After removal of part of an organ or in the contralateral organ of a paired organ", "w": ["Only under the influence of puberty hormones", "Only when estrogen is in excess", "Only in permanent cells"], "p": "B", "e": "Definition from the lecture, with liver, epidermis and nephron examples."},
+{"q": "Hypertrophy of cardiac, smooth and skeletal muscle in disease and in athletes is listed under which category?", "c": "Pathologic hypertrophy", "w": ["Physiologic hypertrophy", "Compensatory atrophy", "Physiologic hyperplasia"], "p": "D", "e": "These examples are listed under pathologic hypertrophy."},
+{"q": "Which pair of factors determines the effect of cell injury?", "c": "Type of cell and tissue involved, and extent and type of cell injury", "w": ["Cell cycle phase, and extent of DNA synthesis", "Endocrine stimulation, and arteriosclerosis", "Functional demand, and removal of the stress"], "p": "A", "e": "Host factors (cell/tissue type) and factors of the injurious agent (extent and type of injury)."},
+{"q": "The enlarged uterus in pregnancy is an example of:", "c": "Physiologic hypertrophy as well as hyperplasia", "w": ["Pathologic hypertrophy as well as hyperplasia", "Physiologic atrophy as well as hypertrophy", "Pathologic hyperplasia due to estrogen excess"], "p": "C", "e": "The lecture states this directly under physiologic hypertrophy."}
 ],
 3:[
-{q:"An athlete's skeletal muscles enlarge without more cells. This fits hypertrophy because skeletal muscle consists of:",c:"Permanent cells with little or no hyperplastic capacity",w:["Labile cells that divide rapidly","Stable cells that readily divide","Cells in the G0 phase only"]},
-{q:"The remaining kidney enlarges after nephrectomy. Hyperplasia is possible there because kidney parenchymal cells are:",c:"Stable cells",w:["Permanent cells","Labile cells","Cells that cannot enter mitosis"]},
-{q:"A kidney is small after atherosclerosis of its artery. Which atrophy and mechanism?",c:"Ischemic atrophy due to reduced blood supply",w:["Disuse atrophy due to diminished activity","Physiologic atrophy due to ageing","Starvation atrophy"]},
-{q:"The pregnant uterus is best classified as:",c:"A physiologic adaptation with hypertrophy and hyperplasia under hormonal influence",w:["A pathologic hypertrophy only","A compensatory atrophy","An irreversible injury"]},
-{q:"Endometrium proliferates after a normal menstrual cycle, versus after estrogen excess. The difference is:",c:"Physiologic hormonal hyperplasia versus pathologic hyperplasia from excessive hormonal stimulation",w:["Hypertrophy versus atrophy","Compensatory versus disuse changes","Both are pathologic hyperplasia"]},
-{q:"A tissue faces severe, persistent stress. Which sequence is expected?",c:"Irreversible cell injury leading to cell death",w:["Adaptation leading to normal cell restored","Reversible injury leading to repair and healing","Hypertrophy leading to hyperplasia"]},
-{q:"Granulation tissue formation and liver regeneration after partial hepatectomy are:",c:"Pathologic hyperplasia (fibroblasts, endothelial cells) and compensatory hyperplasia, respectively",w:["Both hormonal hyperplasia","Hypertrophy and atrophy, respectively","Both compensatory hyperplasia"]},
-{q:"Cardiac muscle enlarges in cardiovascular disease. Since cardiac muscle is a permanent cell type, this is mainly:",c:"Hypertrophy, because hyperplastic capacity is little or none",w:["Hyperplasia, because it is a labile tissue","Atrophy","Metaplasia"]},
-{q:"Which chain best describes hyperplasia?",c:"Stimulus, recruitment of G0 cells, increased DNA synthesis and mitoses, increased cell number",w:["Stimulus, cell shrinkage, fewer cells","Stimulus, increased cell size only, unchanged mitoses","Stimulus, loss of endocrine input, atrophy"]},
-{q:"Which pairing of cell type, example and hyperplastic capacity is correct?",c:"Labile — bone marrow cells — can undergo hyperplasia",w:["Permanent — liver parenchyma — can undergo hyperplasia","Stable — neurons — can undergo hyperplasia","Labile — skeletal muscle — little capacity"]}
-]};
+{"q": "An athlete's skeletal muscles enlarge through hypertrophy rather than hyperplasia because skeletal muscle cells are:", "c": "Permanent cells with little or no regenerative hyperplastic capacity", "w": ["Labile cells that readily divide", "Stable cells that readily divide", "Cells that lack any functional demand"], "p": "D", "e": "Skeletal muscle is a permanent cell type, so enlargement is by hypertrophy."},
+{"q": "Hyperplasia of the nephrons of the remaining kidney after nephrectomy is possible because kidney parenchymal cells are:", "c": "Stable cells", "w": ["Permanent cells", "Labile cells", "Cells restricted to hypertrophy"], "p": "A", "e": "Parenchymal cells of the kidney are stable cells, which can undergo hyperplasia."},
+{"q": "Cardiac muscle enlarges in cardiovascular disease. Since cardiac muscle consists of permanent cells, the enlargement is mainly:", "c": "Hypertrophy, because hyperplastic capacity is little or none", "w": ["Hyperplasia, because cardiac muscle is a labile tissue", "Hyperplasia, because G0 cells are recruited into mitosis", "Atrophy, because functional demand is reduced"], "p": "C", "e": "Cardiac muscle is permanent; hypertrophy of cardiac muscle occurs in cardiovascular diseases."},
+{"q": "Endometrial proliferation after a normal menstrual cycle versus after estrogen excess is, respectively:", "c": "Physiologic hormonal hyperplasia and pathologic hyperplasia", "w": ["Pathologic hyperplasia and physiologic hormonal hyperplasia", "Compensatory hyperplasia and disuse atrophy", "Physiologic hypertrophy and pathologic atrophy"], "p": "B", "e": "Normal endometrial proliferation is hormonal physiologic hyperplasia; estrogen excess gives pathologic hyperplasia."},
+{"q": "Granulation tissue in wound healing and liver regeneration after partial hepatectomy are classified, respectively, as:", "c": "Pathologic hyperplasia and compensatory hyperplasia", "w": ["Compensatory hyperplasia and pathologic hyperplasia", "Hormonal hyperplasia and compensatory hyperplasia", "Pathologic hypertrophy and compensatory hypertrophy"], "p": "B", "e": "Granulation tissue is listed under pathologic hyperplasia; liver regeneration under compensatory hyperplasia."},
+{"q": "Which sequence best describes the mechanism of hyperplasia?", "c": "Stimulus → G0 cells recruited → increased DNA synthesis and mitoses → increased cell number", "w": ["Stimulus → cell shrinkage → fewer cells → organ reduction", "Stimulus → increased cell size only → no change in mitoses → organ enlargement", "Stimulus → loss of endocrine input → reduced mitoses → atrophy"], "p": "D", "e": "Hyperplasia involves G0 recruitment, increased DNA synthesis and mitoses, and more cells."},
+{"q": "Which pairing of cell class, example and hyperplastic capacity is correct?", "c": "Labile — bone marrow cells — can undergo hyperplasia", "w": ["Permanent — liver parenchyma — can undergo hyperplasia", "Stable — neurons — can undergo hyperplasia", "Labile — skeletal muscle — little or no capacity"], "p": "A", "e": "Bone marrow cells are labile; liver parenchyma is stable; neurons and skeletal muscle are permanent."},
+{"q": "One tissue faces severe, persistent stress; another faces mild to moderate stress that is later removed. The expected outcomes are, respectively:", "c": "Cell death; repair and healing", "w": ["Repair and healing; cell death", "Normal cell restored; cell death", "Cell death; normal cell restored"], "p": "C", "e": "Severe persistent stress → irreversible injury → cell death. Mild to moderate stress removed → reversible injury → repair and healing."},
+{"q": "Which example involves both hypertrophy and hyperplasia according to the lecture?", "c": "The remaining kidney after unilateral nephrectomy in a young patient", "w": ["Skeletal muscle of athletes and manual laborers", "Smooth muscle in pyloric stenosis", "Muscular arteries in hypertension"], "p": "D", "e": "Nephrectomy shows compensatory hypertrophy as well as hyperplasia of nephrons; the others are listed as hypertrophy."},
+{"q": "Which pairing of atrophy type and example is correct?", "c": "Ischemic — brain atrophy in cerebral atherosclerosis", "w": ["Physiologic — small kidney in renal artery atherosclerosis", "Disuse — atrophy of lymphoid tissue with age", "Starvation — atrophy of the thymus in adult life"], "p": "A", "e": "Cerebral atherosclerosis gives ischemic atrophy; kidney atrophy from renal artery atherosclerosis is also ischemic; lymphoid and thymic atrophy are physiologic."}
+]
+};
 
-var mmList=document.getElementById("mmList");var mmDetail=document.getElementById("mmDetail");
-  mmTopics.forEach(function(t, i){
-    var btn = document.createElement('button');
-    btn.className = 'mm-item';
-    btn.innerHTML = '<span>' + t.title + '</span><span class="mm-ico">' + String(i+1).padStart(2,'0') + '</span>';
-    btn.addEventListener('click', function(){
-      document.querySelectorAll('.mm-item').forEach(function(m){ m.classList.remove('active'); });
-      btn.classList.add('active');
-      mmDetail.innerHTML = '<h3>' + t.title + '</h3>' + t.body;
+(function(){
+  var tree = document.getElementById('mmTree');
+  function build(node, level){
+    var kids = node.children || [], has = kids.length > 0;
+    var li = document.createElement('li');
+    var row = document.createElement(has ? 'button' : 'div');
+    row.className = 'mm-row l' + level + (has ? '' : ' leaf');
+    if(has){ row.type = 'button'; row.setAttribute('aria-expanded','false'); }
+    var ic = document.createElement('span'); ic.className = has ? 'mm-chev' : 'mm-dot'; row.appendChild(ic);
+    var tx = document.createElement('span'); tx.className = 'mm-txt';
+    var t = document.createElement('span'); t.className = 'mm-t';
+    if(node.relation){ var r = document.createElement('span'); r.className = 'mm-rel'; r.textContent = node.relation; t.appendChild(r); }
+    t.appendChild(document.createTextNode(node.title)); tx.appendChild(t);
+    if(node.note){ var d = document.createElement('span'); d.className = 'mm-d'; d.textContent = node.note; tx.appendChild(d); }
+    row.appendChild(tx);
+    if(has){ var c = document.createElement('span'); c.className = 'mm-count'; c.textContent = kids.length; row.appendChild(c); }
+    li.appendChild(row);
+    if(has){
+      var ul = document.createElement('ul'); ul.hidden = true;
+      kids.forEach(function(k){ ul.appendChild(build(k, level + 1)); });
+      li.appendChild(ul);
+      row.addEventListener('click', function(){
+        var open = row.getAttribute('aria-expanded') === 'true';
+        row.setAttribute('aria-expanded', open ? 'false' : 'true'); ul.hidden = open;
+      });
+    }
+    return li;
+  }
+  tree.appendChild(build(mmData, 1));
+  function setAll(open){
+    tree.querySelectorAll('button.mm-row').forEach(function(b){
+      b.setAttribute('aria-expanded', open ? 'true' : 'false');
+      b.nextElementSibling.hidden = !open;
     });
-    mmList.appendChild(btn);
-  });
+  }
+  document.getElementById('mmExpand').addEventListener('click', function(){ setAll(true); });
+  document.getElementById('mmCollapse').addEventListener('click', function(){ setAll(false); tree.querySelector('button.mm-row').click(); });
+  tree.querySelector('button.mm-row').click();
+})();
   function shuffle(arr){
     var a = arr.slice();
     for(var i=a.length-1;i>0;i--){
@@ -782,7 +1229,9 @@ var mmList=document.getElementById("mmList");var mmDetail=document.getElementByI
     return {
       qi: 0,
       data: quizBank[l].map(function(item){
-        return {q:item.q, options:shuffle([item.c].concat(item.w)), correct:item.c, e:item.e || '', answered:false, selected:null};
+        var opts = item.w.slice();
+        opts.splice('ABCD'.indexOf(item.p), 0, item.c);
+        return {q:item.q, options:opts, correct:item.c, e:item.e || '', answered:false, selected:null};
       })
     };
   }
@@ -898,7 +1347,7 @@ var mmList=document.getElementById("mmList");var mmDetail=document.getElementByI
   loadQuizLevel(1);
 
   /* ---------------- Flash cards ---------------- */
-  var fcAll = [{"l": 1, "f": "What is homeostasis?", "b": "A steady state that cells normally maintain, in which the intracellular milieu is kept within a fairly narrow range of physiologic conditions.", "x": "Cells stay in this narrow range until a stress pushes them out of it."}, {"l": 1, "f": "Define cell injury.", "b": "The effect of a variety of stresses, due to etiologic agents, that a cell encounters, resulting in changes in its internal and external environment.", "x": "The stress comes from an etiologic agent. The result is a change in the cell's surroundings and its internal state."}, {"l": 1, "f": "What two groups of factors determine the outcome of cell injury?", "b": "- Host factors: the type of cell and tissue involved.\n- Factors pertaining to the injurious agent: the extent and type of cell injury.", "x": "The outcome depends on both the cell and the agent."}, {"l": 1, "f": "Define adaptations.", "b": "Reversible changes in the number, size, phenotype, metabolic activity, or functions of cells in response to changes in their environment.", "x": "The key word is reversible. Adaptation is a change that helps the cell cope with its environment."}, {"l": 1, "f": "What happens when cells adapt successfully?", "b": "They achieve a new steady state and preserve viability and function.", "x": "Adaptation produces a new steady state rather than a return to the old one."}, {"l": 1, "f": "Name the five adaptations shown in the lecture diagram.", "b": "Atrophy, hypertrophy, hyperplasia, metaplasia, dysplasia.", "x": "These are the \"adaptive disorders of growth\" in the diagram of the normal bronchial epithelial cell."}, {"l": 1, "f": "What are the two types of adaptation?", "b": "Physiologic adaptations and pathologic adaptations.", "x": "The difference is whether the response is to normal stimulation or to stress."}, {"l": 1, "f": "What are physiologic adaptations?", "b": "Responses of cells to normal stimulation by hormones or endogenous chemical mediators.", "x": "Example: the hormone-induced enlargement of the breast and uterus during pregnancy."}, {"l": 1, "f": "What are pathologic adaptations?", "b": "Responses to stress that allow cells to modulate their structure and function and thus escape injury.", "x": "The stimulus is stress, not normal hormonal stimulation."}, {"l": 1, "f": "Define atrophy.", "b": "A reduction of the number and size of parenchymal cells of an organ or its parts which was once normal.", "x": "Both cell number and cell size fall. The organ was previously normal."}, {"l": 1, "f": "Give two examples of physiologic atrophy.", "b": "- Atrophy of lymphoid tissue with age.\n- Atrophy of the thymus in adult life.", "x": "Atrophy is a normal process of ageing in some tissues."}, {"l": 1, "f": "What are the three causes of pathologic atrophy listed in the lecture?", "b": "- Starvation atrophy\n- Ischemic atrophy\n- Disuse atrophy", "x": "Each one is a pathologic cause, unlike the ageing-related physiologic atrophy."}, {"l": 1, "f": "Define disuse atrophy.", "b": "Atrophy of an organ associated with prolonged diminished functional activity.", "x": "Reduced use of the organ over a long time leads to atrophy."}, {"l": 1, "f": "Define hypertrophy.", "b": "An increase in the size of parenchymal cells resulting in enlargement of the organ or tissue, without any change in the number of cells.", "x": "The cells get bigger, but their number is unchanged."}, {"l": 1, "f": "What causes hypertrophy, whether physiologic or pathologic?", "b": "Increased functional demand or hormonal stimulation.", "x": "Either of these two stimuli can cause it."}, {"l": 1, "f": "Give an example of physiologic hypertrophy.", "b": "The enlarged size of the uterus in pregnancy (which is also an example of hyperplasia).", "x": "Hypertrophy and hyperplasia can occur together in the same organ."}, {"l": 1, "f": "Define hyperplasia.", "b": "An increase in the number of parenchymal cells resulting in enlargement of the organ or tissue.", "x": "It is the opposite of hypertrophy: cell number rises rather than cell size."}, {"l": 1, "f": "From which phase of the cell cycle are cells recruited in hyperplasia?", "b": "The G0 (resting) phase. They are recruited to undergo mitosis when stimulated.", "x": "Hyperplasia is driven by mitosis."}, {"l": 1, "f": "What are the two most common types of physiologic hyperplasia?", "b": "Hormonal hyperplasia and compensatory hyperplasia.", "x": "Hormonal hyperplasia follows hormone stimulation. Compensatory hyperplasia follows removal of part or all of an organ."}, {"l": 1, "f": "Which cells have little or no capacity for regenerative hyperplastic growth?", "b": "Permanent cells, e.g. neurons, cardiac and skeletal muscle.", "x": "Not all body cells possess hyperplastic growth potential."}, {"l": 1, "f": "Give examples of labile cells.", "b": "Epithelial cells of the skin and mucous membranes, and cells of the bone marrow and lymph nodes.", "x": "Labile cells can undergo hyperplasia."}, {"l": 1, "f": "Give examples of stable cells.", "b": "Parenchymal cells of the liver, pancreas, kidney, adrenal, and thyroid.", "x": "Stable cells can undergo hyperplasia."}, {"l": 1, "f": "Give an example of pathologic hyperplasia due to hormone excess.", "b": "Endometrial hyperplasia following estrogen excess.", "x": "Most pathologic hyperplasia is due to excessive stimulation by hormones or growth factors."}, {"l": 1, "f": "What are the morphologic features of hyperplasia?", "b": "Enlargement of the affected organ or tissue, and an increase in the number of cells. This is due to an increased rate of DNA synthesis and hence increased mitoses of the cells.", "x": "More DNA synthesis leads to more mitoses, which leads to more cells."}, {"l": 1, "f": "According to the lecture diagram, what outcome follows severe, persistent stress?", "b": "Irreversible cell injury, leading to cell death.", "x": "Adaptations and reversible injury both allow recovery once the stress is removed. Severe persistent stress does not."}, {"l": 2, "f": "What is the difference between hypertrophy and hyperplasia?", "b": "- Hypertrophy: an increase in the size of parenchymal cells, with no change in cell number.\n- Hyperplasia: an increase in the number of parenchymal cells, due to mitosis.", "x": "Both enlarge the organ or tissue, but by different mechanisms."}, {"l": 2, "f": "Match each stress level in the lecture diagram with its cellular response and outcome.", "b": "- Altered functional demand → Adaptations → stress removed → normal cell restored.\n- Mild to moderate stress → Reversible cell injury → stress removed → repair and healing.\n- Severe, persistent stress → Irreversible cell injury → cell death.", "x": "The type and severity of stress determine the pathway."}, {"l": 2, "f": "What three changes make up reversible cell injury in the diagram?", "b": "Degenerations, subcellular alterations, and intracellular accumulations.", "x": "Reversible injury responds to mild to moderate stress and ends in repair and healing once the stress is removed."}, {"l": 2, "f": "Which hormone-driven event is a physiologic adaptation, and in which organs?", "b": "Pregnancy: hormone-induced enlargement of the breast and uterus.", "x": "The cells respond to normal stimulation by hormones or endogenous chemical mediators."}, {"l": 2, "f": "Give two possible causes of physiologic atrophy with ageing.", "b": "Loss of endocrine stimulation or arteriosclerosis.", "x": "Atrophy is a normal process of ageing in some tissues."}, {"l": 2, "f": "Give the two examples of ischemic atrophy.", "b": "- Small atrophic kidney in atherosclerosis of the renal artery.\n- Atrophy of the brain in cerebral atherosclerosis.", "x": "In both examples atherosclerosis of the supplying artery leads to atrophy of the organ."}, {"l": 2, "f": "List the examples of smooth muscle hypertrophy in the lecture.", "b": "- Cardiac achalasia (esophagus)\n- Pyloric stenosis (stomach)\n- Intestinal strictures\n- Muscular arteries in hypertension", "x": "These are examples of pathologic hypertrophy, alongside cardiac muscle and skeletal muscle."}, {"l": 2, "f": "Which examples of pathologic hypertrophy involve cardiac and skeletal muscle?", "b": "- Cardiac muscle: hypertrophy in a number of cardiovascular diseases.\n- Skeletal muscle: hypertrophied muscles in athletes and manual laborers.", "x": "Both reflect increased functional demand on the muscle."}, {"l": 2, "f": "What is compensatory hypertrophy, and what is the example in the lecture?", "b": "Hypertrophy that occurs in an organ when the contralateral organ is removed. After nephrectomy on one side in a young patient, the other kidney shows compensatory hypertrophy as well as hyperplasia of its nephrons.", "x": "The remaining kidney takes over the lost work."}, {"l": 2, "f": "Which cell categories can undergo hyperplasia, and which cannot?", "b": "- Can: labile cells and stable cells.\n- Little or no capacity: permanent cells.", "x": "Hyperplasia needs cells that can be recruited from G0 into mitosis."}, {"l": 2, "f": "List the examples of hormonal hyperplasia in the lecture.", "b": "- Female breast at puberty, during pregnancy and lactation\n- Pregnant uterus\n- Proliferative activity of the normal endometrium after a normal menstrual cycle\n- Prostatic hyperplasia in old age", "x": "The common factor is hormonal stimulation."}, {"l": 2, "f": "What is the difference between hormonal and compensatory hyperplasia?", "b": "- Hormonal: occurs under the influence of hormonal stimulation.\n- Compensatory: occurs after removal of part of an organ, or in the contralateral organ of a paired organ.", "x": "The trigger is a hormone in one case and lost tissue in the other."}, {"l": 2, "f": "Which examples of compensatory hyperplasia are given?", "b": "- Regeneration of the liver following partial hepatectomy\n- Regeneration of the epidermis after skin abrasion\n- Hyperplasia of the nephrons of the other kidney after unilateral nephrectomy", "x": "Each follows loss or removal of tissue."}, {"l": 2, "f": "How does wound healing illustrate pathologic hyperplasia?", "b": "Granulation tissue forms due to proliferation of fibroblasts and endothelial cells.", "x": "Most pathologic hyperplasia results from excessive stimulation by hormones or growth factors."}, {"l": 2, "f": "Why is the uterus in pregnancy an example of both hypertrophy and hyperplasia?", "b": "Its cells increase in size (hypertrophy) and in number (hyperplasia). Both are physiologic responses to hormonal stimulation.", "x": "The lecture states that hyperplasia and hypertrophy occur together."}, {"l": 3, "f": "A young patient has one kidney removed. Which adaptations occur in the remaining kidney, and which category do they belong to?", "b": "Compensatory hypertrophy and compensatory hyperplasia of the nephrons of the other kidney. The hyperplasia is physiologic compensatory hyperplasia.", "x": "The contralateral organ was removed, so the remaining one compensates by both growing cells and adding cells. Kidney parenchymal cells are stable cells, so they can undergo hyperplasia."}, {"l": 3, "f": "Why can the skeletal muscle of an athlete enlarge only by hypertrophy rather than hyperplasia?", "b": "Skeletal muscle cells are permanent cells, with little or no capacity for regenerative hyperplastic growth. Increased functional demand therefore enlarges the existing cells (hypertrophy).", "x": "Hyperplasia needs cells that can be recruited from G0 into mitosis."}, {"l": 3, "f": "Classify each organ change: (a) small kidney with atherosclerosis of the renal artery, (b) enlarged pregnant uterus, (c) wasting of an organ after prolonged diminished activity.", "b": "- (a) Pathologic atrophy (ischemic atrophy).\n- (b) Physiologic hypertrophy and hyperplasia.\n- (c) Pathologic atrophy (disuse atrophy).", "x": "Atrophy reduces cell number and size. The pregnant uterus shows hormonal enlargement in both cell size and cell number."}, {"l": 3, "f": "Two organs are both enlarged. In one the cells are larger with an unchanged number; in the other the DNA synthesis rate and mitoses are increased. Name each process and a pathologic cause of each.", "b": "- Larger cells, same number: hypertrophy. Example cause: increased functional demand, e.g. muscular arteries in hypertension.\n- Increased DNA synthesis and mitoses: hyperplasia. Example cause: excessive hormonal stimulation, e.g. estrogen excess causing endometrial hyperplasia.", "x": "Both give an enlarged organ, so cell number and DNA synthesis are the distinguishing features."}, {"l": 3, "f": "After skin abrasion the epidermis regenerates. Which type and category of adaptation is this, which cell group is involved, and how does it occur?", "b": "Compensatory hyperplasia (physiologic). The epithelial cells of the skin are labile cells. Cells are recruited from the G0 (resting) phase to undergo mitosis.", "x": "Labile cells can undergo hyperplasia, and recruitment from G0 into mitosis is how hyperplasia occurs."}, {"l": 3, "f": "Compare the endometrium in two situations: (a) after a normal menstrual cycle, (b) with estrogen excess.", "b": "- (a) Physiologic hormonal hyperplasia (proliferative activity of the normal endometrium).\n- (b) Pathologic hyperplasia due to excessive hormonal stimulation (endometrial hyperplasia).", "x": "The same tissue and mechanism (hormonal stimulation) can be physiologic or pathologic depending on whether the stimulus is normal or excessive."}, {"l": 3, "f": "Two cells are exposed to stress. Cell A faces altered functional demand. Cell B faces mild to moderate stress. Both stresses are then removed. What happens to each?", "b": "- Cell A adapts (atrophy, hypertrophy, hyperplasia, metaplasia, dysplasia) and the normal cell is restored.\n- Cell B shows reversible injury (degenerations, subcellular alterations, intracellular accumulations), then repair and healing.", "x": "Both pathways are reversible once the stress is removed. Only severe, persistent stress leads to cell death."}, {"l": 3, "f": "Cardiac achalasia, pyloric stenosis, and hypertension involve which type of muscle, and which adaptation and cause?", "b": "Smooth muscle undergoes pathologic hypertrophy. Hypertrophy is caused by increased functional demand or hormonal stimulation.", "x": "The lecture lists these as pathologic smooth muscle hypertrophy (esophagus, stomach, and muscular arteries respectively)."}, {"l": 3, "f": "Which of these organs can regenerate by hyperplasia after partial removal, and which cannot: liver, brain neurons, cardiac muscle, bone marrow?", "b": "- Can: liver (stable cells, regeneration after partial hepatectomy) and bone marrow (labile cells).\n- Cannot (little or no capacity): neurons and cardiac muscle (permanent cells).", "x": "Hyperplastic capacity depends on cell category: labile and stable cells can, permanent cells cannot."}, {"l": 3, "f": "Which statement best explains why enlargement of an organ does not by itself tell you whether hypertrophy or hyperplasia is present?", "b": "Both enlarge the organ, and they can occur together (e.g. the pregnant uterus, and the remaining kidney after nephrectomy). Hypertrophy increases cell size with no change in cell number, while hyperplasia increases cell number through increased DNA synthesis and mitoses.", "x": "You must look at cell size and cell number to tell them apart."}];
+  var fcAll = [{"l": 1, "f": "Define homeostasis.", "b": "A steady state that cells normally maintain, in which the intracellular milieu is kept within a fairly narrow range of physiologic conditions.", "x": "Cells normally stay inside this narrow range. Stress or injury is what pushes them out of it."}, {"l": 1, "f": "What is cell injury?", "b": "The effect of a variety of stresses, due to etiologic agents, that a cell encounters, resulting in changes in its internal and external environment.", "x": "Cell injury has two parts: a stress from an etiologic agent, and a resulting change in the cell's environment."}, {"l": 1, "f": "What is the term for the process by which a cell achieves a new steady state while preserving viability and function?", "b": "Adaptation.", "x": "Adaptation does not return the cell to the old state. It reaches a new steady state."}, {"l": 1, "f": "Which factors are called \"host factors\" in cell injury?", "b": "The type of cell and tissue involved.", "x": "Host factors concern the cell and tissue that are injured, not the agent that injures them."}, {"l": 1, "f": "Which factors pertain to the injurious agent in cell injury?", "b": "The extent and type of cell injury.", "x": "Together with host factors, these determine the result of cell injury."}, {"l": 1, "f": "Define adaptations.", "b": "Reversible changes in the number, size, phenotype, metabolic activity, or functions of cells in response to changes in their environment.", "x": "The key word is \"reversible\". Adaptations are changes in response to the cell's environment."}, {"l": 1, "f": "Name the five adaptations shown in the lecture diagram of the normal bronchial epithelial cell.", "b": "Atrophy, hypertrophy, hyperplasia, metaplasia, and dysplasia.", "x": "The diagram is titled \"Adaptive disorders of growth\" and labels them A to E."}, {"l": 1, "f": "What are the two types of adaptation?", "b": "Physiologic adaptations and pathologic adaptations.", "x": "The difference lies in what the cell is responding to."}, {"l": 1, "f": "What are physiologic adaptations? Give the lecture example.", "b": "Responses of cells to normal stimulation by hormones or endogenous chemical mediators.\nExample: the hormone-induced enlargement of the breast and uterus during pregnancy.", "x": "The stimulus is a normal one (hormones or endogenous chemical mediators), not stress."}, {"l": 1, "f": "What are pathologic adaptations?", "b": "Responses to stress that allow cells to modulate their structure and function and thus escape injury.", "x": "Here the stimulus is stress, and the purpose of the response is to escape injury."}, {"l": 1, "f": "Define atrophy.", "b": "A reduction of the number and size of parenchymal cells of an organ or its parts which was once normal.", "x": "Both cell number and cell size are reduced, in an organ that was previously normal."}, {"l": 1, "f": "In which setting is atrophy a normal process, and what are two examples?", "b": "Atrophy is a normal process of ageing in some tissues.\n- Atrophy of lymphoid tissue with age\n- Atrophy of the thymus in adult life", "x": "This is physiologic atrophy."}, {"l": 1, "f": "What are the three causes of pathologic atrophy listed in the lecture?", "b": "- Starvation atrophy\n- Ischemic atrophy\n- Disuse atrophy", "x": "Starvation atrophy occurs in starvation. Disuse atrophy follows prolonged diminished functional activity."}, {"l": 1, "f": "Define disuse atrophy.", "b": "Atrophy of an organ associated with prolonged diminished functional activity.", "x": "A long period of reduced function leads to atrophy."}, {"l": 1, "f": "Define hypertrophy.", "b": "An increase in the size of parenchymal cells resulting in enlargement of the organ or tissue, without any change in the number of cells.", "x": "The cells get bigger. Their number does not change."}, {"l": 1, "f": "Hypertrophy, whether physiologic or pathologic, is caused by which two stimuli?", "b": "Increased functional demand or hormonal stimulation.", "x": "The lecture states that in either case hypertrophy is caused by one of these."}, {"l": 1, "f": "Give the lecture example of physiologic hypertrophy.", "b": "The enlarged size of the uterus in pregnancy (which is also an example of hyperplasia).", "x": "One organ can show both hypertrophy and hyperplasia."}, {"l": 1, "f": "Define hyperplasia.", "b": "An increase in the number of parenchymal cells resulting in enlargement of the organ or tissue.", "x": "Here the number of cells increases, whereas in hypertrophy their size increases."}, {"l": 1, "f": "From which phase of the cell cycle are cells recruited in hyperplasia, and what do they then undergo?", "b": "Cells are recruited from the G0 (resting) phase to undergo mitosis, when stimulated.", "x": "Hyperplasia depends on stimulated cells leaving G0 and dividing."}, {"l": 1, "f": "Which category of cells has little or no capacity for regenerative hyperplastic growth? Give examples.", "b": "Permanent cells, e.g. neurons, cardiac and skeletal muscle.", "x": "The lecture notes that all body cells do not possess hyperplastic growth potential."}, {"l": 1, "f": "Give examples of labile cells.", "b": "Epithelial cells of the skin and mucous membranes, and cells of the bone marrow and lymph nodes.", "x": "Labile cells can undergo hyperplasia."}, {"l": 1, "f": "Give examples of stable cells.", "b": "Parenchymal cells of the liver, pancreas, kidney, adrenal, and thyroid.", "x": "Stable cells can undergo hyperplasia."}, {"l": 1, "f": "What are the two most common types of physiologic hyperplasia?", "b": "Hormonal hyperplasia and compensatory hyperplasia.", "x": "They are distinguished by their trigger: hormonal stimulation versus removal of tissue."}, {"l": 1, "f": "Give the lecture example of pathologic hyperplasia caused by excessive hormone stimulation.", "b": "Endometrial hyperplasia following estrogen excess.", "x": "Most pathologic hyperplasia is due to excessive stimulation by hormones or growth factors."}, {"l": 1, "f": "What are the morphologic features of hyperplasia?", "b": "Enlargement of the affected organ or tissue and an increase in the number of cells.\nThis is due to an increased rate of DNA synthesis and hence increased mitoses of the cells.", "x": "Increased DNA synthesis leads to increased mitoses, which leads to more cells."}, {"l": 2, "f": "What is the difference between hypertrophy and hyperplasia?", "b": "- Hypertrophy: increase in the size of parenchymal cells, without any change in the number of cells.\n- Hyperplasia: increase in the number of parenchymal cells, through recruitment from G0 into mitosis.", "x": "Both enlarge the organ or tissue, but through different cellular changes."}, {"l": 2, "f": "Match each stress level in the lecture flow chart with its response and outcome.", "b": "- Altered functional demand \u2192 Adaptations \u2192 stress removed \u2192 normal cell restored\n- Mild to moderate stress \u2192 Reversible cell injury \u2192 stress removed \u2192 repair and healing\n- Severe, persistent stress \u2192 Irreversible cell injury \u2192 cell death", "x": "The type and severity of stress determine which pathway the normal cell follows."}, {"l": 2, "f": "Which three changes are listed under reversible cell injury in the flow chart?", "b": "Degenerations, subcellular alterations, and intracellular accumulations.", "x": "They occur with mild to moderate stress and are followed by repair and healing once the stress is removed."}, {"l": 2, "f": "Which of the following is NOT listed among the adaptations: atrophy, hyperplasia, degenerations, metaplasia?", "b": "Degenerations.", "x": "In the flow chart, degenerations belong to reversible cell injury, not to the adaptations (atrophy, hypertrophy, hyperplasia, metaplasia, dysplasia)."}, {"l": 2, "f": "Compare physiologic and pathologic adaptations in terms of stimulus and purpose.", "b": "- Physiologic: response to normal stimulation by hormones or endogenous chemical mediators (e.g. breast and uterus enlargement in pregnancy).\n- Pathologic: response to stress that lets cells modulate structure and function and escape injury.", "x": "Physiologic adaptation answers a normal stimulus. Pathologic adaptation answers stress."}, {"l": 2, "f": "What are the possible causes of physiologic atrophy, and which tissues are given as examples?", "b": "- Normal process of ageing in some tissues\n- Possible causes: loss of endocrine stimulation or arteriosclerosis\n- Examples: lymphoid tissue with age, thymus in adult life", "x": "Physiologic atrophy is linked to ageing rather than to disease."}, {"l": 2, "f": "Give the two examples of ischemic atrophy in the lecture.", "b": "- Small atrophic kidney in atherosclerosis of the renal artery\n- Atrophy of the brain in cerebral atherosclerosis", "x": "In both examples atherosclerosis of the artery supplying the organ is the cause."}, {"l": 2, "f": "List the examples of smooth muscle hypertrophy given in the lecture.", "b": "- Cardiac achalasia (esophagus)\n- Pyloric stenosis (stomach)\n- Intestinal strictures\n- Muscular arteries in hypertension", "x": "These are examples of pathologic hypertrophy."}, {"l": 2, "f": "Why is the uterus in pregnancy an example of both hypertrophy and hyperplasia?", "b": "The pregnant uterus enlarges through an increase in cell size (physiologic hypertrophy) and in cell number (hormonal hyperplasia).", "x": "The lecture states that hyperplasia and hypertrophy occur together, and that the pregnant uterus is an example of both."}, {"l": 2, "f": "What is compensatory hypertrophy, and what is the lecture example?", "b": "Hypertrophy that occurs in an organ when the contralateral organ is removed.\nExample: after nephrectomy on one side in a young patient, the other kidney shows compensatory hypertrophy as well as hyperplasia of its nephrons.", "x": "The remaining organ enlarges in response to the loss of its partner."}, {"l": 2, "f": "Which cell categories can undergo hyperplasia, and which cannot?", "b": "- Can: labile cells and stable cells\n- Little or no capacity: permanent cells", "x": "Hyperplasia needs cells that can be recruited from G0 into mitosis."}, {"l": 2, "f": "List the examples of hormonal hyperplasia given in the lecture.", "b": "- Female breast at puberty, during pregnancy and lactation\n- Pregnant uterus\n- Proliferative activity of the normal endometrium after a normal menstrual cycle\n- Prostatic hyperplasia in old age", "x": "In every example, the trigger is hormonal stimulation."}, {"l": 2, "f": "What is the difference between hormonal and compensatory hyperplasia?", "b": "- Hormonal: occurs under the influence of hormonal stimulation.\n- Compensatory: occurs following removal of part of an organ, or in the contralateral organ of a paired organ.", "x": "The trigger is a hormone in one case and lost tissue in the other."}, {"l": 2, "f": "Give the three examples of compensatory hyperplasia in the lecture.", "b": "- Regeneration of the liver following partial hepatectomy\n- Regeneration of the epidermis after skin abrasion\n- Hyperplasia of the nephrons of the other kidney following nephrectomy on one side", "x": "Each example follows removal or loss of tissue."}, {"l": 2, "f": "How does wound healing illustrate pathologic hyperplasia?", "b": "There is formation of granulation tissue due to proliferation of fibroblasts and endothelial cells.", "x": "Most pathologic hyperplasia is due to excessive stimulation by hormones or growth factors."}, {"l": 3, "f": "A young patient has one kidney removed. Which adaptations occur in the remaining kidney, and why can hyperplasia occur there?", "b": "Compensatory hypertrophy as well as hyperplasia of the nephrons of the other kidney.\nHyperplasia is possible because kidney parenchymal cells are stable cells, which can undergo hyperplasia.", "x": "The contralateral organ was removed, so the remaining kidney compensates. Stable cells can be recruited from G0 into mitosis."}, {"l": 3, "f": "Why does the skeletal muscle of an athlete enlarge by hypertrophy rather than hyperplasia?", "b": "Skeletal muscle cells are permanent cells, with little or no capacity for regenerative hyperplastic growth. Increased functional demand therefore enlarges the existing cells (hypertrophy).", "x": "Hypertrophy is caused by increased functional demand. Hyperplasia would require cells that can be recruited from G0 into mitosis."}, {"l": 3, "f": "Classify each change: (a) small kidney in atherosclerosis of the renal artery, (b) thymus in adult life, (c) an organ after prolonged diminished functional activity.", "b": "- (a) Pathologic atrophy: ischemic atrophy\n- (b) Physiologic atrophy: normal process of ageing\n- (c) Pathologic atrophy: disuse atrophy", "x": "All three are atrophy (reduced number and size of parenchymal cells). They differ in cause: ischemia, ageing, or disuse."}, {"l": 3, "f": "Two organs are enlarged. In organ 1 the cells are larger but their number is unchanged. In organ 2 DNA synthesis and mitoses are increased. Name each process and a lecture example of a cause.", "b": "- Organ 1: hypertrophy, caused by increased functional demand (e.g. muscular arteries in hypertension) or hormonal stimulation.\n- Organ 2: hyperplasia, e.g. endometrial hyperplasia following estrogen excess.", "x": "Both enlarge the organ. Cell size versus cell number (with DNA synthesis and mitoses) tells them apart."}, {"l": 3, "f": "After skin abrasion the epidermis regenerates. Name the adaptation, its category, the cell group involved, and how it occurs.", "b": "Compensatory hyperplasia (physiologic). The epithelial cells of the skin are labile cells. Cells are recruited from the G0 (resting) phase to undergo mitosis.", "x": "Labile cells can undergo hyperplasia, and recruitment from G0 into mitosis is how hyperplasia occurs."}, {"l": 3, "f": "Compare the endometrium in (a) a normal menstrual cycle and (b) estrogen excess. Which type of hyperplasia is each?", "b": "- (a) Physiologic hormonal hyperplasia: proliferative activity of the normal endometrium after a normal menstrual cycle.\n- (b) Pathologic hyperplasia: endometrial hyperplasia due to excessive hormonal stimulation (estrogen excess).", "x": "The tissue and the mechanism (hormonal stimulation) are the same. Normal versus excessive stimulation decides whether it is physiologic or pathologic."}, {"l": 3, "f": "Cell A faces altered functional demand. Cell B faces mild to moderate stress. Cell C faces severe, persistent stress. Predict the outcome of each.", "b": "- Cell A: adaptation (atrophy, hypertrophy, hyperplasia, metaplasia, dysplasia); once the stress is removed, the normal cell is restored.\n- Cell B: reversible cell injury (degenerations, subcellular alterations, intracellular accumulations); once the stress is removed, repair and healing.\n- Cell C: irreversible cell injury, leading to cell death.", "x": "Only severe, persistent stress leads to irreversible injury and cell death."}, {"l": 3, "f": "After partial removal of the organ, which of these can regenerate by hyperplasia and which cannot: liver, neurons, cardiac muscle, bone marrow?", "b": "- Can: liver (stable cells; regeneration after partial hepatectomy) and bone marrow (labile cells).\n- Little or no capacity: neurons and cardiac muscle (permanent cells).", "x": "Hyperplastic capacity depends on the cell category: labile and stable cells can undergo hyperplasia, permanent cells cannot."}, {"l": 3, "f": "Cardiac muscle enlarges in a number of cardiovascular diseases. Which adaptation is this, and what in the lecture explains why it is not hyperplasia?", "b": "Pathologic hypertrophy of cardiac muscle.\nCardiac muscle cells are permanent cells, with little or no capacity for regenerative hyperplastic growth, so enlargement occurs by an increase in cell size.", "x": "Hypertrophy is caused by increased functional demand or hormonal stimulation, and does not require an increase in cell number."}, {"l": 3, "f": "Compare granulation tissue formation in wound healing with liver regeneration after partial hepatectomy. Classify each and name the cells involved.", "b": "- Granulation tissue: pathologic hyperplasia, due to proliferation of fibroblasts and endothelial cells.\n- Liver regeneration after partial hepatectomy: physiologic compensatory hyperplasia, of liver parenchymal cells (stable cells).", "x": "Both are hyperplasia (increased cell number), but one is a pathologic response and the other follows removal of part of an organ."}];
   var fcLabels = {0:"All (50)",1:"Level 1 · Easy (25)",2:"Level 2 · Medium (15)",3:"Level 3 · Hard (10)"};
   var fcLevel = 0, fcIdx = 0, fcList = fcAll;
   var fcCardEl = document.getElementById('fcCard');
